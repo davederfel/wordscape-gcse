@@ -147,14 +147,29 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 - Gaps are filled with any English word, to make the game work.
 - English is the default.
 - Example of gap filling: if a subject and topic have only two 3-letter words, but the game wants to offer a four-word game, it takes the other two words from the English dictionary.
+- When a topic is chosen, the game uses all of that topic's words, then fills gaps from the English words as needed.
+- The wheel has the letters that make all the words in the level.
+
+**How this is read (to be confirmed by Dave)**
+
+- A level contains several topic words. The wheel holds every letter needed to spell each of them, so it can have more letters than any one word. For example, ION and GAS together need the six letters A, G, I, N, O, S.
+- Gap-filling words are English words that can be made from the letters already in the wheel.
+- Levels run by word length: the 3-letter level uses the topic's 3-letter words, the 4-letter level its 4-letter words, and so on up to the topic's longest word.
 
 **Open questions**
 
-1. **How topic words share the letter wheel.** In Wordscapes, every word in a level is made from the same few letters in the wheel. Two different topic words of the same length (for example ION and GAS) cannot both be made from one set of three letters. Which of these is intended?
-   - *One topic word per level.* The level is built around a single topic word. Its letters form the wheel, and the rest of the grid is filled with English words made from those same letters. For example, PLANET gives PLANET plus PLAN, LANE, PLATE, PANEL and others.
-   - *Several topic words per level.* The wheel holds all the letters needed to spell every topic word in the level (so ION and GAS need a six-letter wheel), and English words made from those letters fill the rest.
-   - Something else.
-2. **Short topic words with nothing to fill from.** Some topic words make no other words from their own letters. CELL, for example, makes only CELL. What should the game do with these?
+1. **How large the wheel may get.** Because the wheel must spell every word in the level, it grows quickly as topic words are added. Tested against the english word lists:
+
+   | Topic words in the level | Wheel | English words that can be made (bonus words) |
+   |---|---|---|
+   | ION, GAS | 6 letters | 33 |
+   | CELL, GENE | 7 letters | 10 |
+   | CELL, GENE, ATOM | 11 letters | 341 |
+   | CELL, GENE, ATOM, ACID, MASS | 15 letters | 2,586 |
+   | NUCLEUS, PROTEIN, VACUOLE | 14 letters | 2,783 |
+
+   A wheel of 11 to 15 letters is hard to read and to play, and it allows hundreds of bonus words at +20 each. Should there be a maximum wheel size (for example 7 or 8 letters), with a topic's words of one length split across several levels to stay within it?
+2. **Whether "all words" means one level or many.** Does a single level hold all of a topic's words, or all of its words of one length (as read above)?
 3. **Giving up.** What happens when the player gives up: are the answers shown, are any points lost, and does the game move to the next level?
 4. **Bonus words score more than puzzle words.** A bonus word (+20) is worth twice a correct puzzle word (+10), so the off-topic words earn more than the topic's own. Is that intended?
 5. **How many words a level offers.** In the example the game "wants to offer a four-word game". How is the number of words in a level decided?
@@ -246,3 +261,4 @@ Sources: [Wordscapes on Google Play](https://play.google.com/store/apps/details?
 - 2026-10-11: First version. Recorded the overview, look and feel, and screen layout (areas A to G).
 - 2026-10-11: Recorded the inspiration (Wordscapes by PeopleFun) and the working name. Added background notes on how Wordscapes works (section 8).
 - 2026-10-11: Recorded the game logic (section 4) and the subjects and topics folder layout (section 5). Added the english word lists under `subjects/english/`.
+- 2026-10-11: Recorded that a level uses all of a topic's words and that the wheel holds the letters for all of them. Added the wheel-size question, with test figures.
