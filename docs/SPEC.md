@@ -2,7 +2,7 @@
 
 This document records how the game should look and work, as described by Dave. It is the reference for the first build.
 
-**Status: incomplete. Do not build yet.** The screen layout is recorded below. Game logic, subjects, topics, word lists and images are still to come.
+**Status: incomplete. Do not build until Dave says to.** The screen layout, game logic and subject folder layout are recorded below, and the english word lists are in place. Subject and topic word lists and images are still to come, and the open questions in each section are not yet settled.
 
 Each section separates three things:
 
@@ -136,13 +136,62 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 
 ## 4. Game logic
 
-To be provided by Dave.
+**Stated**
+
+- There is no timer.
+- The player can give up on a level if they cannot carry on.
+- Each correct word scores +10 points.
+- A bonus word scores +20 points. Any English word counts as a bonus word.
+- A clue costs 10 points (see area F in section 3).
+- The letter count starts at 3 and goes up to the length of the longest word provided in the subject area.
+- Gaps are filled with any English word, to make the game work.
+- English is the default.
+- Example of gap filling: if a subject and topic have only two 3-letter words, but the game wants to offer a four-word game, it takes the other two words from the English dictionary.
+
+**Open questions**
+
+1. **How topic words share the letter wheel.** In Wordscapes, every word in a level is made from the same few letters in the wheel. Two different topic words of the same length (for example ION and GAS) cannot both be made from one set of three letters. Which of these is intended?
+   - *One topic word per level.* The level is built around a single topic word. Its letters form the wheel, and the rest of the grid is filled with English words made from those same letters. For example, PLANET gives PLANET plus PLAN, LANE, PLATE, PANEL and others.
+   - *Several topic words per level.* The wheel holds all the letters needed to spell every topic word in the level (so ION and GAS need a six-letter wheel), and English words made from those letters fill the rest.
+   - Something else.
+2. **Short topic words with nothing to fill from.** Some topic words make no other words from their own letters. CELL, for example, makes only CELL. What should the game do with these?
+3. **Giving up.** What happens when the player gives up: are the answers shown, are any points lost, and does the game move to the next level?
+4. **Bonus words score more than puzzle words.** A bonus word (+20) is worth twice a correct puzzle word (+10), so the off-topic words earn more than the topic's own. Is that intended?
+5. **How many words a level offers.** In the example the game "wants to offer a four-word game". How is the number of words in a level decided?
+6. **Topic terms that are not a single word.** How should terms with a space or hyphen be handled (for example "cell wall")?
+7. **Completing a level.** Are any points awarded for finishing a level, beyond the points for each word?
 
 ---
 
 ## 5. Subjects, topics and word lists
 
-To be provided by Dave.
+**Stated**
+
+- Subjects are folders, for example science and maths.
+- Each subject folder has subfolders, one per topic.
+- Each topic folder has a file of words to use.
+- Dave creates these folders and files himself.
+- There is a default subject called english. It has no topics, and the player can select it.
+- The english words are also used to fill gaps in other subjects (see section 4).
+- The English word source covers words of 3 to 7 letters.
+
+**Provided**
+
+- The layout is in place under [`subjects/`](../subjects/README.md).
+- The english subject is in [`subjects/english/`](../subjects/english/README.md), with two files:
+  - `words.txt`: 17,644 everyday words, which the game may place in a puzzle.
+  - `dictionary.txt`: 36,198 words, used to decide whether a bonus word is a valid English word.
+- Both are British English and have had offensive words removed. The source, licence and method are described in the english folder's README.
+
+**Proposed (not yet confirmed by Dave)**
+
+- Each topic's file is called `words.txt` and holds one word per line.
+- Two English files instead of one: a puzzle should only ask for words a pupil is likely to know, but a pupil who finds a less common word should still get credit.
+
+**Open questions**
+
+- If a clue shows a written hint or definition (see area F), each topic word will need its hint stored beside it in the words file.
+- Subject and topic word lists are still to be provided by Dave.
 
 ---
 
@@ -186,12 +235,7 @@ These notes describe the app that inspired this game. **They are background, not
 - Coins are awarded for completing a level.
 - Levels are grouped into named packs, each with its own background. In the reference screenshot, "SHINE 1" is the pack name and the level's number within that pack.
 
-**Points Dave may want to decide, prompted by the above**
-
-- Is there a timer, or any way to fail a level?
-- Do bonus words exist? In a GCSE game, are only the topic's words accepted, or any valid English word?
-- How many letters can a level have? GCSE vocabulary is often longer than 7 letters.
-- How many points for a word, and for completing a level?
+The points this raised (timer, bonus words, letter count and scoring) have been answered by Dave and are recorded in section 4.
 
 Sources: [Wordscapes on Google Play](https://play.google.com/store/apps/details?id=com.peoplefun.wordcross), [Wordscapes on Wikipedia](https://en.wikipedia.org/wiki/Wordscapes).
 
@@ -201,3 +245,4 @@ Sources: [Wordscapes on Google Play](https://play.google.com/store/apps/details?
 
 - 2026-10-11: First version. Recorded the overview, look and feel, and screen layout (areas A to G).
 - 2026-10-11: Recorded the inspiration (Wordscapes by PeopleFun) and the working name. Added background notes on how Wordscapes works (section 8).
+- 2026-10-11: Recorded the game logic (section 4) and the subjects and topics folder layout (section 5). Added the english word lists under `subjects/english/`.
