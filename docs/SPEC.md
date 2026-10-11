@@ -20,6 +20,14 @@ Each section separates three things:
 - Subjects, and topics within each subject, set the word list.
 - The game has levels and points.
 - Dave will supply the visual guide, subjects, topics, words, images and some of the game logic.
+- The game is inspired by "Wordscapes" by PeopleFun (on Google Play).
+- The working name, for now, is "wordscape GCSE".
+
+**Proposed (not yet confirmed by Dave)**
+
+- Wordscapes is used as inspiration for how the game plays and feels only. The game's words, images and code are original, and nothing is taken from the Wordscapes app itself (including its installation file).
+
+Background notes on how Wordscapes works are in section 8.
 
 ---
 
@@ -155,6 +163,41 @@ They are not stored in this repository, because the repository is public and the
 
 ---
 
+## 8. Background: how Wordscapes works
+
+These notes describe the app that inspired this game. **They are background, not requirements.** Nothing here is part of the game unless Dave confirms it in the sections above.
+
+**From the Google Play listing and Wikipedia**
+
+- A mix of word-connect, anagram and crossword play, described as relaxing, with landscape backgrounds that change as the player advances.
+- The player finds every word that can be made from the letters in the circle at the bottom of the screen.
+- A level has between 3 and 7 letters in the circle, depending on the level.
+- Difficulty starts easy and increases.
+- Each level allows unlimited tries. There is no timer and no way to fail a level.
+- Bonus words (valid words that are not in the grid) earn extra coins.
+- A separate daily puzzle offers extra rewards.
+
+**From general knowledge of the app (to be checked against the app before relying on it)**
+
+- Words are formed by dragging a finger from letter to letter around the circle, then letting go.
+- A correct word fills its place in the crossword grid. A word that is not valid is rejected and nothing is lost.
+- The shuffle button rearranges the letters in the circle and is free.
+- The hint button costs coins and reveals one letter in the grid.
+- Coins are awarded for completing a level.
+- Levels are grouped into named packs, each with its own background. In the reference screenshot, "SHINE 1" is the pack name and the level's number within that pack.
+
+**Points Dave may want to decide, prompted by the above**
+
+- Is there a timer, or any way to fail a level?
+- Do bonus words exist? In a GCSE game, are only the topic's words accepted, or any valid English word?
+- How many letters can a level have? GCSE vocabulary is often longer than 7 letters.
+- How many points for a word, and for completing a level?
+
+Sources: [Wordscapes on Google Play](https://play.google.com/store/apps/details?id=com.peoplefun.wordcross), [Wordscapes on Wikipedia](https://en.wikipedia.org/wiki/Wordscapes).
+
+---
+
 ## Change log
 
 - 2026-10-11: First version. Recorded the overview, look and feel, and screen layout (areas A to G).
+- 2026-10-11: Recorded the inspiration (Wordscapes by PeopleFun) and the working name. Added background notes on how Wordscapes works (section 8).
