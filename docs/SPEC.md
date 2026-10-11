@@ -149,27 +149,18 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 - Example of gap filling: if a subject and topic have only two 3-letter words, but the game wants to offer a four-word game, it takes the other two words from the English dictionary.
 - When a topic is chosen, the game uses all of that topic's words, then fills gaps from the English words as needed.
 - The wheel has the letters that make all the words in the level.
+- The wheel has a maximum of 7 letters.
 
 **How this is read (to be confirmed by Dave)**
 
 - A level contains several topic words. The wheel holds every letter needed to spell each of them, so it can have more letters than any one word. For example, ION and GAS together need the six letters A, G, I, N, O, S.
 - Gap-filling words are English words that can be made from the letters already in the wheel.
-- Levels run by word length: the 3-letter level uses the topic's 3-letter words, the 4-letter level its 4-letter words, and so on up to the topic's longest word.
+- Levels run by word length, starting with the topic's 3-letter words and working up to its 7-letter words.
 
 **Open questions**
 
-1. **How large the wheel may get.** Because the wheel must spell every word in the level, it grows quickly as topic words are added. Tested against the english word lists:
-
-   | Topic words in the level | Wheel | English words that can be made (bonus words) |
-   |---|---|---|
-   | ION, GAS | 6 letters | 33 |
-   | CELL, GENE | 7 letters | 10 |
-   | CELL, GENE, ATOM | 11 letters | 341 |
-   | CELL, GENE, ATOM, ACID, MASS | 15 letters | 2,586 |
-   | NUCLEUS, PROTEIN, VACUOLE | 14 letters | 2,783 |
-
-   A wheel of 11 to 15 letters is hard to read and to play, and it allows hundreds of bonus words at +20 each. Should there be a maximum wheel size (for example 7 or 8 letters), with a topic's words of one length split across several levels to stay within it?
-2. **Whether "all words" means one level or many.** Does a single level hold all of a topic's words, or all of its words of one length (as read above)?
+1. **Topic words longer than 7 letters.** With a 7-letter wheel, a word of 8 letters or more cannot be spelled, so it cannot appear in the game. Many GCSE terms are longer than this (for example FRACTION, MEMBRANE, EQUATION). This also replaces the earlier rule that the letter count runs "up to the longest word in the subject area". Are longer terms simply left out, or should they be handled another way?
+2. **How topic words are grouped into levels.** A 7-letter wheel usually has room for one topic word, and sometimes two short ones (ION and GAS need 6 letters; CELL and GENE need 7; CELL, GENE and ATOM need 11). So a topic's words will be spread over a run of levels, each with one or two topic words and the rest filled from English. How should the game choose which words share a level?
 3. **Giving up.** What happens when the player gives up: are the answers shown, are any points lost, and does the game move to the next level?
 4. **Bonus words score more than puzzle words.** A bonus word (+20) is worth twice a correct puzzle word (+10), so the off-topic words earn more than the topic's own. Is that intended?
 5. **How many words a level offers.** In the example the game "wants to offer a four-word game". How is the number of words in a level decided?
@@ -201,6 +192,8 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 **Proposed (not yet confirmed by Dave)**
 
 - Each topic's file is called `words.txt` and holds one word per line.
+- Dave may supply the words as a spreadsheet with one row per word and the columns Subject, Topic, Word and (optionally) Clue. The topic files are then produced from it.
+- Topic words are single words of 3 to 7 letters, using the letters A to Z only.
 - Two English files instead of one: a puzzle should only ask for words a pupil is likely to know, but a pupil who finds a less common word should still get credit.
 
 **Open questions**
@@ -262,3 +255,4 @@ Sources: [Wordscapes on Google Play](https://play.google.com/store/apps/details?
 - 2026-10-11: Recorded the inspiration (Wordscapes by PeopleFun) and the working name. Added background notes on how Wordscapes works (section 8).
 - 2026-10-11: Recorded the game logic (section 4) and the subjects and topics folder layout (section 5). Added the english word lists under `subjects/english/`.
 - 2026-10-11: Recorded that a level uses all of a topic's words and that the wheel holds the letters for all of them. Added the wheel-size question, with test figures.
+- 2026-10-11: Recorded the 7-letter maximum for the wheel. Replaced the wheel-size question with its consequences (longer terms, grouping words into levels). Added the proposed spreadsheet layout for word lists.
