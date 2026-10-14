@@ -1,10 +1,10 @@
-word,clue
-raster,An image made of tiny coloured squares called pixels
-vector,An image made from lines and shapes that can be resized without losing quality.
-bitmap,A type of raster image stored as a grid of pixels
-opacity,How transparent or solid an object is (100% opacity = fully visible)
-export,Saving a file in a different format so it can be used elsewhere
-jpg,A compressed image file format commonly used for photographs
-bmp,An uncompressed image file format that produces large file sizes but good image quality
-svg,A vector image format that can be resized without losing quality
-gif,An image format that supports simple animations and limited colours
+word,clue,say_as
+raster,An image made of tiny coloured squares called pixels,
+vector,An image made from lines and shapes that can be resized without losing quality.,
+bitmap,A type of raster image stored as a grid of pixels,
+opacity,How transparent or solid an object is (100% opacity = fully visible),
+export,Saving a file in a different format so it can be used elsewhere,
+jpg,A compressed image file format commonly used for photographs,J. P. G.
+bmp,An uncompressed image file format that produces large file sizes but good image quality,B. M. P.
+svg,A vector image format that can be resized without losing quality,S. V. G.
+gif,An image format that supports simple animations and limited colours,

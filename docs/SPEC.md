@@ -94,9 +94,14 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 
 - Two round buttons in this area: a back arrow and a dictionary button ("Aa").
 
+**Stated**
+
+- A button at the top left turns sound/speech on and off.
+
 **Open questions**
 
-- What does the menu contain?
+- What does the menu contain, and does it sit beside the sound button?
+- Should sound be on or off when the game starts?
 
 ### D. Main area (crossword-style words)
 
@@ -116,7 +121,11 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 
 **Stated**
 
-- A clue costs 10 points.
+- A clue costs 10 points, taken from the player's score.
+- The player must have the points to pay for it. The score cannot go below zero.
+- Each press reveals one letter on the grid, chosen at random from the letters not yet solved.
+- On every 3rd press in the same game, the game also reads a word's clue aloud (if one is set) and shows the clue text while it is spoken.
+- On the 5th press, the game says the word aloud, but does not show it.
 
 **Seen in the reference screenshot**
 
@@ -124,7 +133,10 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 
 **Open questions**
 
-- What does a clue do: reveal a letter in the grid, show a written hint or definition, or something else?
+1. **Which word.** On the 3rd and 5th presses, which word's clue is read, and which word is said? For example, the word containing the letter just revealed, or a random unsolved word.
+2. **What "the same game" covers.** Does the press count start again at each new level, or run across the whole topic or session?
+3. **After the 5th press.** Does the pattern carry on (clue read at presses 6, 9, 12; word said at 10, 15), or does each happen only once? At press 15 both would fall due.
+4. **Too few points.** When the player has under 10 points, should the clue button look disabled, or show a message when pressed?
 
 ### G. Letter wheel
 
@@ -142,7 +154,7 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 - The player can give up on a level if they cannot carry on.
 - Each correct word scores +10 points.
 - A bonus word scores +20 points. Any English word counts as a bonus word.
-- A clue costs 10 points (see area F in section 3).
+- A clue costs 10 points (see area F in section 3). The score cannot go below zero.
 - The letter count starts at 3 and goes up to the length of the longest word provided in the subject area.
 - Gaps are filled with any English word, to make the game work.
 - English is the default.
@@ -192,7 +204,7 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 
 **Proposed (not yet confirmed by Dave)**
 
-- Each topic's file is called `words.csv`, with two columns: `word` and `clue`.
+- Each topic's file is called `words.csv`, with three columns: `word`, `clue` and `say_as`.
 - Dave may supply the words as a spreadsheet with one row per word and the columns Subject, Topic, Word and (optionally) Clue. The topic files are then produced from it. The template is [templates/wordscape-gcse-words.xlsx](../templates/wordscape-gcse-words.xlsx).
 - Topic words are single words of 3 to 7 letters, using the letters A to Z only.
 - Two English files instead of one: a puzzle should only ask for words a pupil is likely to know, but a pupil who finds a less common word should still get credit.
@@ -210,27 +222,21 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 **Stated**
 
 - When the player gets a word correct, the game says the word out loud, then reads out its clue. For example, on completing CELL it says "Cell", then "The basic unit of all living things".
+- All words are read out: topic words, English fill words and bonus words.
+- A word with no clue is just said aloud.
+- Words the voice would say wrongly have a "Say as" entry in the word spreadsheet. For example, BMP is read out as its letters: "B. M. P."
+- The sound/speech on/off button is at the top left (see area C).
 - This happens while the word is animated, drawing and filling in on the grid.
 - The purpose is for the player to hear how the word is said correctly and what it means.
 
 **Proposed (not yet confirmed by Dave)**
 
 - Speech uses the browser's built-in voice, set to British English. This needs no recorded audio files, but the voice sounds different on different devices and browsers.
-- An optional "Say as" column in the word spreadsheet, for words the voice would say wrongly. Abbreviations are the main case: without it, BMP may be read as one made-up word. For example:
-
-  | Word | Say as |
-  |---|---|
-  | bmp | B M P |
-  | svg | S V G |
-  | jpg | jay peg |
-  | gif | gif |
+- The "Say as" column is optional and filled in only where needed. Entries added so far: BMP as "B. M. P.", SVG as "S. V. G." and JPG as "J. P. G.". GIF has none and is said as written. Dave to check these.
 
 **Open questions**
 
-1. **Which words are spoken.** Only topic words (which have clues), or also English fill words and bonus words? Fill and bonus words have no clue, so they could be spoken without a meaning, or not at all.
-2. **Topic words without a clue.** Say the word only?
-3. **Sound on and off.** Should there be a button to turn speech off, for example in a classroom? If so, should it be on or off by default?
-4. **The clue button (area F).** The clue text is now read out after a word is solved. What does spending 10 points on a clue give before it is solved: the same clue text, a revealed letter, or something else?
+- English fill and bonus words come from the word lists, which have no "Say as" column. If the voice says one of them wrongly, it can only be fixed by removing the word from the list.
 
 ---
 
@@ -290,3 +296,4 @@ Sources: [Wordscapes on Google Play](https://play.google.com/store/apps/details?
 - 2026-10-14: Added the word list spreadsheet template.
 - 2026-10-14: Added Dave's first word list (47 words in three topics) and the tool that builds topic files from it. Topic files changed from `words.txt` to `words.csv` to hold clues.
 - 2026-10-14: Recorded one-word levels for topic words with no fill words. Added spoken words and meanings (section 6).
+- 2026-10-14: Recorded the clue button rules (area F), the sound on/off button (area C), and that all words are read aloud. Added the "Say as" column to the spreadsheet and topic files.

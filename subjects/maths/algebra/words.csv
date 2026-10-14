@@ -1,37 +1,37 @@
-word,clue
-factor,A number that divides exactly into another
-base,The number or variable being raised to a power.
-term,A single part of an algebraic expression.
-solve,Find the value that makes an equation true.
-power,A number showing repeated multiplication.
-index,Another name for a power or exponent.
-graph,A visual representation of a relationship between variables.
-expand,Multiply out brackets to remove them.
-bracket,A symbol used to group parts of an expression.
-linear,Describes an expression or equation with variables to the power of 1 only.
-square,A number multiplied by itself.
-root,A value that produces a given number when multiplied by itself a certain number of times.
-formula,An equation showing a relationship between quantities.
-subject,The variable being made the focus of a formula.
-direct,A type of proportion where two values change together.
-inverse,An opposite operation used to undo another operation.
-ratio,A comparison between two or more quantities.
-value,The numerical amount of a variable or expression.
-equals,Has the same value as another expression or number.
-collect,Combine like terms together.
-common,Shared by two or more terms or numbers.
-lowest,The smallest value in a group.
-highest,The largest value in a group.
-divide,Split into equal parts or groups.
-double,Multiply by two.
-triple,Multiply by three.
-cubed,Raised to the power of three.
-number,A mathematical value used in calculations.
-algebra,Maths involving letters and numbers.
-unknown,A value that needs to be found.
-replace,Put a number in place of a variable.
-output,The result from a function or rule.
-input,The value entered into a function or rule.
-pattern,A repeated mathematical rule or arrangement.
-method,A process used to solve a problem.
-compare,Identify similarities or differences between values.
+word,clue,say_as
+factor,A number that divides exactly into another,
+base,The number or variable being raised to a power.,
+term,A single part of an algebraic expression.,
+solve,Find the value that makes an equation true.,
+power,A number showing repeated multiplication.,
+index,Another name for a power or exponent.,
+graph,A visual representation of a relationship between variables.,
+expand,Multiply out brackets to remove them.,
+bracket,A symbol used to group parts of an expression.,
+linear,Describes an expression or equation with variables to the power of 1 only.,
+square,A number multiplied by itself.,
+root,A value that produces a given number when multiplied by itself a certain number of times.,
+formula,An equation showing a relationship between quantities.,
+subject,The variable being made the focus of a formula.,
+direct,A type of proportion where two values change together.,
+inverse,An opposite operation used to undo another operation.,
+ratio,A comparison between two or more quantities.,
+value,The numerical amount of a variable or expression.,
+equals,Has the same value as another expression or number.,
+collect,Combine like terms together.,
+common,Shared by two or more terms or numbers.,
+lowest,The smallest value in a group.,
+highest,The largest value in a group.,
+divide,Split into equal parts or groups.,
+double,Multiply by two.,
+triple,Multiply by three.,
+cubed,Raised to the power of three.,
+number,A mathematical value used in calculations.,
+algebra,Maths involving letters and numbers.,
+unknown,A value that needs to be found.,
+replace,Put a number in place of a variable.,
+output,The result from a function or rule.,
+input,The value entered into a function or rule.,
+pattern,A repeated mathematical rule or arrangement.,
+method,A process used to solve a problem.,
+compare,Identify similarities or differences between values.,

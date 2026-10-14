@@ -21,7 +21,7 @@ subjects/
 
 ## How words are added
 
-1. Add rows to the spreadsheet `wordscape-gcse-words.xlsx`: Subject, Topic, Word and an optional Clue. The spreadsheet checks each word as you type. A blank copy is in [templates/](../templates/wordscape-gcse-words.xlsx).
+1. Add rows to the spreadsheet `wordscape-gcse-words.xlsx`: Subject, Topic, Word, and optionally a Clue and a Say as. The spreadsheet checks each word as you type. A blank copy is in [templates/](../templates/wordscape-gcse-words.xlsx).
 2. Run `python tools/build_topics.py subjects/wordscape-gcse-words.xlsx`. This rebuilds every topic folder from the spreadsheet.
 
 The spreadsheet is the master copy. Edit it, not the topic files, or the next rebuild will overwrite your changes.
@@ -32,12 +32,12 @@ Folder names are the subject and topic in lower case, with spaces replaced by hy
 
 ## The topic file
 
-Each topic folder has a `words.csv` file with two columns, `word` and `clue`. Words are stored in lower case. A clue may be blank.
+Each topic folder has a `words.csv` file with three columns: `word`, `clue` and `say_as`. Words are stored in lower case. The clue and say_as may be blank. `say_as` is how the voice should speak the word, where it would otherwise say it wrongly.
 
 ```
-word,clue
-raster,An image made of tiny coloured squares called pixels
-vector,An image made from lines and shapes that can be resized without losing quality.
+word,clue,say_as
+raster,An image made of tiny coloured squares called pixels,
+bmp,An uncompressed image file format that produces large file sizes but good image quality,B. M. P.
 ```
 
 ## The english subject
