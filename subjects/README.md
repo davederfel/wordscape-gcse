@@ -4,42 +4,40 @@ This folder holds the words the game uses. Each subject is a folder. Each topic 
 
 ```
 subjects/
-  english/              the default subject: no topics
+  wordscape-gcse-words.xlsx   the master word list (Dave's spreadsheet)
+  english/                    the default subject: no topics
     words.txt
     dictionary.txt
-  science/              a subject
-    cells/              a topic
-      words.txt
-    forces/
-      words.txt
+  computer/
+    digital-media/
+      words.csv
   maths/
     algebra/
-      words.txt
+      words.csv
+  science/
+    cells/
+      words.csv
 ```
 
-"science", "maths" and the topic names above are examples only. Only `english` exists so far.
+## How words are added
 
-## Adding a subject or topic
+1. Add rows to the spreadsheet `wordscape-gcse-words.xlsx`: Subject, Topic, Word and an optional Clue. The spreadsheet checks each word as you type. A blank copy is in [templates/](../templates/wordscape-gcse-words.xlsx).
+2. Run `python tools/build_topics.py subjects/wordscape-gcse-words.xlsx`. This rebuilds every topic folder from the spreadsheet.
 
-1. Create a folder for the subject (if it does not exist), for example `science`.
-2. Inside it, create a folder for the topic, for example `cells`.
-3. Inside the topic folder, create a file called `words.txt`.
+The spreadsheet is the master copy. Edit it, not the topic files, or the next rebuild will overwrite your changes.
 
-## Supplying words as a spreadsheet
+## Folder names
 
-The easiest way to supply words is the spreadsheet [templates/wordscape-gcse-words.xlsx](../templates/wordscape-gcse-words.xlsx): one row per word, with Subject, Topic, Word and an optional Clue. It checks each word as you type. The topic files below are produced from it.
+Folder names are the subject and topic in lower case, with spaces replaced by hyphens. For example, the topic "Digital Media" is stored in `digital-media`.
 
-## The words file (proposed format, to be confirmed)
+## The topic file
 
-- Plain text, one word per line.
-- Capital or small letters: the game treats them the same.
-- Blank lines are ignored.
+Each topic folder has a `words.csv` file with two columns, `word` and `clue`. Words are stored in lower case. A clue may be blank.
 
 ```
-cell
-nucleus
-membrane
-enzyme
+word,clue
+raster,An image made of tiny coloured squares called pixels
+vector,An image made from lines and shapes that can be resized without losing quality.
 ```
 
 ## The english subject

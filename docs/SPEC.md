@@ -2,7 +2,7 @@
 
 This document records how the game should look and work, as described by Dave. It is the reference for the first build.
 
-**Status: incomplete. Do not build until Dave says to.** The screen layout, game logic and subject folder layout are recorded below, and the english word lists are in place. Subject and topic word lists and images are still to come, and the open questions in each section are not yet settled.
+**Status: incomplete. Do not build until Dave says to.** The screen layout, game logic and subject folder layout are recorded below. The english word lists and a first set of topic words are in place. More topic words and images are still to come, and the open questions in each section are not yet settled.
 
 Each section separates three things:
 
@@ -191,7 +191,7 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 
 **Proposed (not yet confirmed by Dave)**
 
-- Each topic's file is called `words.txt` and holds one word per line.
+- Each topic's file is called `words.csv`, with two columns: `word` and `clue`.
 - Dave may supply the words as a spreadsheet with one row per word and the columns Subject, Topic, Word and (optionally) Clue. The topic files are then produced from it. The template is [templates/wordscape-gcse-words.xlsx](../templates/wordscape-gcse-words.xlsx).
 - Topic words are single words of 3 to 7 letters, using the letters A to Z only.
 - Two English files instead of one: a puzzle should only ask for words a pupil is likely to know, but a pupil who finds a less common word should still get credit.
@@ -199,7 +199,8 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 **Open questions**
 
 - If a clue shows a written hint or definition (see area F), each topic word will need its hint stored beside it in the words file.
-- Subject and topic word lists are still to be provided by Dave.
+- Dave has provided a first set of words: computer / Digital Media (9 words), maths / algebra (36) and science / cells (2). The master copy is `subjects/wordscape-gcse-words.xlsx`.
+- Some topic words have few or no other English words in their letters, so their levels would be thin or contain only that word. Examples: CELL, BASE, TERM, ROOT, VALUE, and the file formats JPG, BMP, SVG and GIF (which have no vowels or are not English words). How should these be handled?
 
 ---
 
@@ -257,3 +258,4 @@ Sources: [Wordscapes on Google Play](https://play.google.com/store/apps/details?
 - 2026-10-11: Recorded that a level uses all of a topic's words and that the wheel holds the letters for all of them. Added the wheel-size question, with test figures.
 - 2026-10-11: Recorded the 7-letter maximum for the wheel. Replaced the wheel-size question with its consequences (longer terms, grouping words into levels). Added the proposed spreadsheet layout for word lists.
 - 2026-10-14: Added the word list spreadsheet template.
+- 2026-10-14: Added Dave's first word list (47 words in three topics) and the tool that builds topic files from it. Topic files changed from `words.txt` to `words.csv` to hold clues.
