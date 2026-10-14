@@ -160,11 +160,18 @@ button:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
 .clue-text {
   position: absolute; left: 0; right: 0; bottom: 0; z-index: 4;
   background: var(--glass-light); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
-  border-radius: 4cqw; padding: 3cqw 4cqw; font-size: 4.4cqw; font-weight: 700; line-height: 1.35;
+  border-radius: 4cqw; padding: 3cqw 10cqw; font-size: 4.4cqw; font-weight: 700; line-height: 1.35;
   text-align: center; color: var(--ink);
   opacity: 0; transform: translateY(2cqw); transition: opacity 0.3s ease, transform 0.3s ease; pointer-events: none;
 }
-.clue-text.show { opacity: 1; transform: none; }
+.clue-text.show { opacity: 1; transform: none; pointer-events: auto; }
+.box-close {
+  position: absolute; top: 1.6cqw; right: 1.6cqw; width: 8cqw; height: 8cqw; border-radius: 50%;
+  border: 0; cursor: pointer; display: grid; place-items: center; padding: 0;
+  background: rgba(59, 42, 49, 0.1); color: var(--ink); font-size: 6.4cqw; line-height: 1; font-weight: 700;
+}
+.box-close:hover { background: rgba(59, 42, 49, 0.18); }
+.box-close:focus-visible { outline-color: var(--accent-deep); }
 .clue-text b { display: block; font-size: 3.2cqw; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-deep); margin-bottom: 0.6cqw; }
 .clue-text .said { display: block; font-family: var(--display); font-weight: 800; font-size: 8cqw; line-height: 1.05; letter-spacing: 0.04em; color: var(--accent-deep); }
 .clue-text .meaning { display: block; margin-top: 1cqw; }
@@ -296,7 +303,7 @@ button:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
     <div class="board-wrap" id="boardWrap">
       <div class="board" id="board"><div class="grid" id="grid"></div></div>
       <div class="toast" id="toast" role="status"></div>
-      <div class="clue-text" id="clueText" aria-live="polite"></div>
+      <div class="clue-text" id="clueText"><button class="box-close" id="boxClose" type="button" aria-label="Close">&times;</button><div id="clueContent" aria-live="polite"></div></div>
     </div>
 
     <div class="current" id="current" aria-live="polite"></div>

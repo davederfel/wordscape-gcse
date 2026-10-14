@@ -434,7 +434,7 @@ function setupWheel() {
       if (i >= 0) { path.push(i); updateCurrent(); } else shakeCurrent();
     } else if (e.key === "Backspace") { path.pop(); updateCurrent(); e.preventDefault(); }
     else if (e.key === "Enter") submitPath();
-    else if (e.key === "Escape") { path = []; updateCurrent(); }
+    else if (e.key === "Escape") { if (path.length) { path = []; updateCurrent(); } else closeAnnouncement(); }
     else if (e.key === " ") { e.preventDefault(); shuffleWheel(); }
   });
 }
@@ -493,7 +493,12 @@ function handleWord(word) {
       level.bonus.push(word);
       addScore(SETTINGS.pointsPerBonus);
       toast(`Bonus word  +${SETTINGS.pointsPerBonus}`, true);
-      speech.say(word);
+      {
+        // a bonus word from this topic's list has a meaning to show; others are just read aloud
+        const t = (topicList || []).find((x) => x.word === word);
+        if (t?.clue) announce({ heading: "Bonus word", said: t.say || word.toUpperCase(), text: t.clue, speak: [t.say || word, t.clue] });
+        else speech.say(t?.say || word);
+      }
       clearCurrentSoon("fade");
       break;
     case "bonus-again":
@@ -513,7 +518,10 @@ function solveWord(index, withPoints) {
   if (withPoints) addScore(SETTINGS.pointsPerWord);
   const ms = animateWord(w);
   // show the word as it is spoken, with its meaning, while both are read aloud
-  const shown = announce({ said: w.say || w.word.toUpperCase(), text: w.clue, speak: [w.say || w.word, w.clue] });
+  // a word with a meaning gets the box; a word without one is just read aloud
+  let shown = Promise.resolve();
+  if (w.clue) shown = announce({ said: w.say || w.word.toUpperCase(), text: w.clue, speak: [w.say || w.word, w.clue] });
+  else speech.say(w.say || w.word);
   if (levelDone(level)) {
     busy = true;
     Promise.all([shown, new Promise((r) => setTimeout(r, ms + 600))]).then(levelComplete);
@@ -585,12 +593,15 @@ function announce({ heading = "", said = "", text = "", speak = [] }) {
   });
 }
 
+let currentAnnouncement = null;
+
 function nextAnnouncement() {
   if (announcing || !announcements.length) return;
   announcing = true;
   const a = announcements.shift();
+  currentAnnouncement = a;
   const box = $("clueText");
-  box.innerHTML = (a.heading ? `<b>${esc(a.heading)}</b>` : "")
+  $("clueContent").innerHTML = (a.heading ? `<b>${esc(a.heading)}</b>` : "")
     + (a.said ? `<span class="said">${esc(a.said)}</span>` : "")
     + (a.text ? `<span class="meaning">${esc(a.text)}</span>` : "");
   box.classList.add("show");
@@ -598,20 +609,40 @@ function nextAnnouncement() {
   // keep it up long enough to read; when speech is on, the speaking sets the pace
   const least = speech.on ? 1800 : a.text ? 4500 : 2000;
   const done = () => {
+    if (a.cancelled) return;
     const wait = Math.max(0, least - (Date.now() - shownAt)) + 600;
-    announceTimer = setTimeout(() => {
-      if (!announcements.length) box.classList.remove("show");
-      announcing = false;
-      a.resolve();
-      nextAnnouncement();
-    }, wait);
+    announceTimer = setTimeout(() => finishAnnouncement(a), wait);
   };
-  const sayFrom = (k) => (k < a.speak.length && speech.on ? speech.say(a.speak[k], () => sayFrom(k + 1)) : done());
+  const sayFrom = (k) => {
+    if (a.cancelled) return;
+    if (k < a.speak.length && speech.on) speech.say(a.speak[k], () => sayFrom(k + 1));
+    else done();
+  };
   sayFrom(0);
+}
+
+function finishAnnouncement(a) {
+  if (currentAnnouncement !== a) return;
+  currentAnnouncement = null;
+  clearTimeout(announceTimer);
+  if (!announcements.length) $("clueText").classList.remove("show");
+  announcing = false;
+  a.resolve();
+  nextAnnouncement();
+}
+
+// The x on the box: stop reading it out and move on.
+function closeAnnouncement() {
+  const a = currentAnnouncement;
+  if (!a) return;
+  a.cancelled = true;
+  speech.stop();
+  finishAnnouncement(a);
 }
 
 function clearAnnouncements() {
   clearTimeout(announceTimer);
+  if (currentAnnouncement) { currentAnnouncement.cancelled = true; currentAnnouncement.resolve(); currentAnnouncement = null; }
   for (const a of announcements.splice(0)) a.resolve();
   announcing = false;
   $("clueText").classList.remove("show");
@@ -721,6 +752,7 @@ function setupControls() {
   $("quitBtn").addEventListener("click", () => askSave(renderStart));
   $("shuffleBtn").addEventListener("click", shuffleWheel);
   $("clueBtn").addEventListener("click", useClue);
+  $("boxClose").addEventListener("click", closeAnnouncement);
   new ResizeObserver(() => { layoutGrid(); if (game?.level) { placeLetters(); drawTrail(); } }).observe($("app"));
 }
 

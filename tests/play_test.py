@@ -315,6 +315,12 @@ def main():
             page.click("#dialogButtons button")
             page.wait_for_timeout(500)
         check(game(page)["levelNo"] == 5, "english: levels keep going")
+        page.evaluate("window.__spoken = []")
+        w0 = unsolved(page)[0]
+        type_word(page, w0)
+        page.wait_for_timeout(200)
+        check(page.locator("#clueText.show").count() == 0 and page.evaluate("window.__spoken")[:1] == [w0],
+              "word with no meaning: read aloud, no box")
         page.wait_for_timeout(900)
         page.screenshot(path=str(SHOTS / "12-english.png"))
 
@@ -336,6 +342,9 @@ def main():
               f"found word: box shows {shown} and its meaning while it is read aloud")
         page.wait_for_timeout(400)
         page.screenshot(path=str(SHOTS / "13b-word-box.png"))
+        page.click("#boxClose")
+        page.wait_for_timeout(100)
+        check(page.locator("#clueText.show").count() == 0, "found word: the x closes the box straight away")
 
         # ---- laptop size ----
         page.set_viewport_size({"width": 1440, "height": 900})
