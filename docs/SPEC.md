@@ -262,12 +262,19 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 - Words the voice would say wrongly have a "Say as" entry in the word spreadsheet. For example, BMP is read out as its letters: "B. M. P."
 - The speech on/off button is in the menu at the top left (see area C).
 - This happens while the word is animated, drawing and filling in on the grid.
+- As the word and its clue are read aloud, a box on screen shows the word as it is spoken, with the clue beneath it. For example, on getting GIF right the box shows "G.I.F." and "An image format that supports simple animations and limited colours".
 - The purpose is for the player to hear how the word is said correctly and what it means.
 
 **Proposed (not yet confirmed by Dave)**
 
 - Speech uses the browser's built-in voice, set to British English. This needs no recorded audio files, but the voice sounds different on different devices and browsers.
 - The "Say as" column is optional and filled in only where needed. Entries added so far: BMP as "B. M. P.", SVG as "S. V. G." and JPG as "J. P. G.". GIF has none and is said as written. Dave to check these.
+
+**How this is read in the first build (to be confirmed by Dave)**
+
+- The box shows the "Say as" form where one is set (for example "B. M. P."), and otherwise the word in capitals.
+- The box appears for every word found on the grid, including English fill words, which show the word only. Bonus words are read aloud but do not get a box.
+- The box sits at the bottom of the grid area, where clues from the clue button also appear. If several words are found close together, their boxes take turns, and the level-complete message waits until the last one has been read.
 
 **Points to note**
 
@@ -352,3 +359,4 @@ Sources: [Wordscapes on Google Play](https://play.google.com/store/apps/details?
 - 2026-10-14: Recorded the style of the other screens. Added the default backgrounds, the per-topic backgrounds folders and the background list tool (section 7).
 - 2026-10-14: All open questions answered; specification ready for review.
 - 2026-10-14: First test build published. Recorded the readings made while building (words completed by a clue, typing on a laptop, levels made fresh each game).
+- 2026-10-14: Added the on-screen box showing a found word and its meaning while they are read aloud.

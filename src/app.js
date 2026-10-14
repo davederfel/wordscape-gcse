@@ -194,6 +194,7 @@ function makeLevel() {
 }
 
 function enterGame() {
+  clearAnnouncements();
   busy = false;
   path = [];
   closeDialog();
@@ -511,11 +512,11 @@ function solveWord(index, withPoints) {
   w.solved = true;
   if (withPoints) addScore(SETTINGS.pointsPerWord);
   const ms = animateWord(w);
-  speech.say(w.say || w.word);
-  if (w.clue) speech.say(w.clue);
+  // show the word as it is spoken, with its meaning, while both are read aloud
+  const shown = announce({ said: w.say || w.word.toUpperCase(), text: w.clue, speak: [w.say || w.word, w.clue] });
   if (levelDone(level)) {
     busy = true;
-    setTimeout(levelComplete, ms + 900);
+    Promise.all([shown, new Promise((r) => setTimeout(r, ms + 600))]).then(levelComplete);
   }
   return ms;
 }
@@ -571,19 +572,53 @@ function useClue() {
   }
 }
 
-let clueTimer;
-function showClue(text) {
+// The box at the bottom of the grid area. It shows a found word with its meaning, or a clue,
+// for as long as it takes to read aloud. Several in a row take turns.
+const announcements = [];
+let announcing = false;
+let announceTimer;
+
+function announce({ heading = "", said = "", text = "", speak = [] }) {
+  return new Promise((resolve) => {
+    announcements.push({ heading, said, text, speak: speak.filter(Boolean), resolve });
+    nextAnnouncement();
+  });
+}
+
+function nextAnnouncement() {
+  if (announcing || !announcements.length) return;
+  announcing = true;
+  const a = announcements.shift();
   const box = $("clueText");
-  box.innerHTML = `<b>Clue</b>${esc(text)}`;
+  box.innerHTML = (a.heading ? `<b>${esc(a.heading)}</b>` : "")
+    + (a.said ? `<span class="said">${esc(a.said)}</span>` : "")
+    + (a.text ? `<span class="meaning">${esc(a.text)}</span>` : "");
   box.classList.add("show");
   const shownAt = Date.now();
-  clearTimeout(clueTimer);
-  const hide = () => {
-    const wait = Math.max(0, 4000 - (Date.now() - shownAt)) + 800;
-    clueTimer = setTimeout(() => box.classList.remove("show"), wait);
+  // keep it up long enough to read; when speech is on, the speaking sets the pace
+  const least = speech.on ? 1800 : a.text ? 4500 : 2000;
+  const done = () => {
+    const wait = Math.max(0, least - (Date.now() - shownAt)) + 600;
+    announceTimer = setTimeout(() => {
+      if (!announcements.length) box.classList.remove("show");
+      announcing = false;
+      a.resolve();
+      nextAnnouncement();
+    }, wait);
   };
-  if (speech.on) speech.say(text, hide);
-  else clueTimer = setTimeout(() => box.classList.remove("show"), 6000);
+  const sayFrom = (k) => (k < a.speak.length && speech.on ? speech.say(a.speak[k], () => sayFrom(k + 1)) : done());
+  sayFrom(0);
+}
+
+function clearAnnouncements() {
+  clearTimeout(announceTimer);
+  for (const a of announcements.splice(0)) a.resolve();
+  announcing = false;
+  $("clueText").classList.remove("show");
+}
+
+function showClue(text) {
+  announce({ heading: "Clue", text, speak: [text] });
 }
 
 function levelComplete() {
@@ -598,6 +633,7 @@ function levelComplete() {
 }
 
 function nextLevel() {
+  clearAnnouncements();
   game.levelNo += 1;
   if (!makeLevel()) return topicComplete();
   closeDialog();
@@ -657,7 +693,7 @@ function closeDialog() { $("overlay").hidden = true; }
 // Asks whether to save before leaving the game.
 function askSave(then) {
   closeMenu();
-  const leave = () => { speech.stop(); closeDialog(); game = null; then(); };
+  const leave = () => { speech.stop(); clearAnnouncements(); closeDialog(); game = null; then(); };
   openDialog({
     title: "Save your progress?",
     body: `<p>You can resume ${esc(game.english ? "English" : cap(game.topicName))} from level ${game.levelNo} next time. This replaces any game saved before.</p>`,

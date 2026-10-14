@@ -99,7 +99,7 @@ def finish_level(page):
     for w in unsolved(page):
         type_word(page, w)
         page.wait_for_timeout(60)
-    page.wait_for_selector("#overlay:not([hidden])", timeout=8000)
+    page.wait_for_selector("#overlay:not([hidden])", timeout=60000)
 
 
 def main():
@@ -330,6 +330,12 @@ def main():
         page.wait_for_timeout(200)
         sp = page.evaluate("window.__spoken")
         check(sp[:1] == [w["say"] or w["word"]], f"say as: {w['word'].upper()} spoken as {sp[:1]}")
+        box = page.inner_text("#clueText")
+        shown = w["say"] or w["word"].upper()
+        check(page.locator("#clueText.show").count() == 1 and shown in box and w["clue"] in box,
+              f"found word: box shows {shown} and its meaning while it is read aloud")
+        page.wait_for_timeout(400)
+        page.screenshot(path=str(SHOTS / "13b-word-box.png"))
 
         # ---- laptop size ----
         page.set_viewport_size({"width": 1440, "height": 900})
