@@ -210,6 +210,8 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
   - `dictionary.txt`: 36,198 words, used to decide whether a bonus word is a valid English word.
 - Both are British English and have had offensive words removed. The source, licence and method are described in the english folder's README.
 
+- Dave has provided a first set of words: computer / Digital Media (9 words), maths / algebra (36) and science / cells (2), each word with a clue. The master copy is `subjects/wordscape-gcse-words.xlsx`.
+
 **Proposed (not yet confirmed by Dave)**
 
 - Each topic's file is called `words.csv`, with three columns: `word`, `clue` and `say_as`.
@@ -217,10 +219,6 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 - Topic words are single words of 3 to 7 letters, using the letters A to Z only.
 - Two English files instead of one: a puzzle should only ask for words a pupil is likely to know, but a pupil who finds a less common word should still get credit.
 
-**Open questions**
-
-- If a clue shows a written hint or definition (see area F), each topic word will need its hint stored beside it in the words file.
-- Dave has provided a first set of words: computer / Digital Media (9 words), maths / algebra (36) and science / cells (2). The master copy is `subjects/wordscape-gcse-words.xlsx`.
 
 
 ---
