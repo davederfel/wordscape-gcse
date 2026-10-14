@@ -25,6 +25,10 @@ subjects/
 2. Inside it, create a folder for the topic, for example `cells`.
 3. Inside the topic folder, create a file called `words.txt`.
 
+## Supplying words as a spreadsheet
+
+The easiest way to supply words is the spreadsheet [templates/wordscape-gcse-words.xlsx](../templates/wordscape-gcse-words.xlsx): one row per word, with Subject, Topic, Word and an optional Clue. It checks each word as you type. The topic files below are produced from it.
+
 ## The words file (proposed format, to be confirmed)
 
 - Plain text, one word per line.

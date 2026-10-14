@@ -192,7 +192,7 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 **Proposed (not yet confirmed by Dave)**
 
 - Each topic's file is called `words.txt` and holds one word per line.
-- Dave may supply the words as a spreadsheet with one row per word and the columns Subject, Topic, Word and (optionally) Clue. The topic files are then produced from it.
+- Dave may supply the words as a spreadsheet with one row per word and the columns Subject, Topic, Word and (optionally) Clue. The topic files are then produced from it. The template is [templates/wordscape-gcse-words.xlsx](../templates/wordscape-gcse-words.xlsx).
 - Topic words are single words of 3 to 7 letters, using the letters A to Z only.
 - Two English files instead of one: a puzzle should only ask for words a pupil is likely to know, but a pupil who finds a less common word should still get credit.
 
@@ -256,3 +256,4 @@ Sources: [Wordscapes on Google Play](https://play.google.com/store/apps/details?
 - 2026-10-11: Recorded the game logic (section 4) and the subjects and topics folder layout (section 5). Added the english word lists under `subjects/english/`.
 - 2026-10-11: Recorded that a level uses all of a topic's words and that the wheel holds the letters for all of them. Added the wheel-size question, with test figures.
 - 2026-10-11: Recorded the 7-letter maximum for the wheel. Replaced the wheel-size question with its consequences (longer terms, grouping words into levels). Added the proposed spreadsheet layout for word lists.
+- 2026-10-14: Added the word list spreadsheet template.
