@@ -96,12 +96,15 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 
 **Stated**
 
-- A button at the top left turns sound/speech on and off.
+- The menu is at the top left. It contains:
+  - Speech on/off.
+  - Exit back to the subject choice.
+  - Quit the whole game.
 
 **Open questions**
 
-- What does the menu contain, and does it sit beside the sound button?
-- Should sound be on or off when the game starts?
+- Should speech be on or off when the game starts?
+- A web page cannot reliably close its own browser tab. Should "quit the whole game" return to a start or title screen instead?
 
 ### D. Main area (crossword-style words)
 
@@ -124,19 +127,24 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 - A clue costs 10 points, taken from the player's score.
 - The player must have the points to pay for it. The score cannot go below zero.
 - Each press reveals one letter on the grid, chosen at random from the letters not yet solved.
-- On every 3rd press in the same game, the game also reads a word's clue aloud (if one is set) and shows the clue text while it is spoken.
-- On the 5th press, the game says the word aloud, but does not show it.
+- On every 3rd press, the game also reads a word's clue aloud (if one is set) and shows the clue text while it is spoken.
+- On every 5th press, the game says a word aloud, but does not show it.
+- The pattern keeps repeating: clue read at presses 3, 6, 9, 12 and so on; word said at presses 5, 10, 15 and so on.
+- The press count runs across the whole topic. It does not restart at each new level.
+- The clue read out, or word said, is always one that is not yet solved on the grid. A completed word is never used.
+- If the player does not have the points, pressing the button shows the message "No points left to spend".
 
 **Seen in the reference screenshot**
 
 - A round button with a light-bulb icon and the cost shown beneath it.
 
-**Open questions**
+**How this is read (to be confirmed by Dave)**
 
-1. **Which word.** On the 3rd and 5th presses, which word's clue is read, and which word is said? For example, the word containing the letter just revealed, or a random unsolved word.
-2. **What "the same game" covers.** Does the press count start again at each new level, or run across the whole topic or session?
-3. **After the 5th press.** Does the pattern carry on (clue read at presses 6, 9, 12; word said at 10, 15), or does each happen only once? At press 15 both would fall due.
-4. **Too few points.** When the player has under 10 points, should the clue button look disabled, or show a message when pressed?
+- Where more than one word is unsolved, one is chosen at random.
+- Every press still reveals a letter, including the 3rd and 5th presses.
+- When the letter just revealed completes the last unsolved word, there is nothing left to read out, so only the letter is revealed.
+- When both fall due on the same press (15, 30 and so on), the clue is read first, then the word is said.
+- The message shows whenever the score is under 10, even if it is not zero.
 
 ### G. Letter wheel
 
@@ -225,7 +233,7 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 - All words are read out: topic words, English fill words and bonus words.
 - A word with no clue is just said aloud.
 - Words the voice would say wrongly have a "Say as" entry in the word spreadsheet. For example, BMP is read out as its letters: "B. M. P."
-- The sound/speech on/off button is at the top left (see area C).
+- The speech on/off button is in the menu at the top left (see area C).
 - This happens while the word is animated, drawing and filling in on the grid.
 - The purpose is for the player to hear how the word is said correctly and what it means.
 
@@ -297,3 +305,4 @@ Sources: [Wordscapes on Google Play](https://play.google.com/store/apps/details?
 - 2026-10-14: Added Dave's first word list (47 words in three topics) and the tool that builds topic files from it. Topic files changed from `words.txt` to `words.csv` to hold clues.
 - 2026-10-14: Recorded one-word levels for topic words with no fill words. Added spoken words and meanings (section 6).
 - 2026-10-14: Recorded the clue button rules (area F), the sound on/off button (area C), and that all words are read aloud. Added the "Say as" column to the spreadsheet and topic files.
+- 2026-10-14: Settled the clue button rules (area F) and the menu contents (area C).
