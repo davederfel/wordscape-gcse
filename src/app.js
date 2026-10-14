@@ -494,10 +494,9 @@ function handleWord(word) {
       addScore(SETTINGS.pointsPerBonus);
       toast(`Bonus word  +${SETTINGS.pointsPerBonus}`, true);
       {
-        // a bonus word from this topic's list has a meaning to show; others are just read aloud
+        // bonus words get the box too; a bonus word from this topic's list also shows its meaning
         const t = (topicList || []).find((x) => x.word === word);
-        if (t?.clue) announce({ heading: "Bonus word", said: t.say || word.toUpperCase(), text: t.clue, speak: [t.say || word, t.clue] });
-        else speech.say(t?.say || word);
+        announce({ heading: "Bonus word", said: t?.say || word.toUpperCase(), text: t?.clue || "", speak: [t?.say || word, t?.clue] });
       }
       clearCurrentSoon("fade");
       break;
@@ -518,10 +517,8 @@ function solveWord(index, withPoints) {
   if (withPoints) addScore(SETTINGS.pointsPerWord);
   const ms = animateWord(w);
   // show the word as it is spoken, with its meaning, while both are read aloud
-  // a word with a meaning gets the box; a word without one is just read aloud
-  let shown = Promise.resolve();
-  if (w.clue) shown = announce({ said: w.say || w.word.toUpperCase(), text: w.clue, speak: [w.say || w.word, w.clue] });
-  else speech.say(w.say || w.word);
+  // every found word is shown in the box as it is read aloud, with its meaning if it has one
+  const shown = announce({ said: w.say || w.word.toUpperCase(), text: w.clue, speak: [w.say || w.word, w.clue] });
   if (levelDone(level)) {
     busy = true;
     Promise.all([shown, new Promise((r) => setTimeout(r, ms + 600))]).then(levelComplete);

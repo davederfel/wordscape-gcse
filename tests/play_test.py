@@ -243,6 +243,7 @@ def main():
             page.wait_for_timeout(150)
             check(game(page)["score"] == s9 + 20, f"bonus: {b.upper()} (not on the grid) scores +20")
             check(page.evaluate("window.__spoken")[:1] == [b], "bonus: the bonus word is read aloud")
+            check(page.locator("#clueText.show").count() == 1 and b.upper() in page.inner_text("#clueContent"), "bonus: box shows the bonus word")
             type_word(page, b)
             page.wait_for_timeout(150)
             check(game(page)["score"] == s9 + 20, "bonus: the same bonus word only scores once")
@@ -319,8 +320,8 @@ def main():
         w0 = unsolved(page)[0]
         type_word(page, w0)
         page.wait_for_timeout(200)
-        check(page.locator("#clueText.show").count() == 0 and page.evaluate("window.__spoken")[:1] == [w0],
-              "word with no meaning: read aloud, no box")
+        check(page.locator("#clueText.show").count() == 1 and page.inner_text("#clueContent").strip() == w0.upper()
+              and page.evaluate("window.__spoken")[:1] == [w0], "word with no meaning: box shows the word as it is read aloud")
         page.wait_for_timeout(900)
         page.screenshot(path=str(SHOTS / "12-english.png"))
 
