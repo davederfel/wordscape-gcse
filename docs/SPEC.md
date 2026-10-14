@@ -49,9 +49,11 @@ Background notes on how Wordscapes works are in section 9.
 - The landscape is a long-distance scenic view.
 - A small flock of birds moves slowly around in the background.
 
-**Open questions**
+- The layout is portrait, like a phone.
 
-- Should the game also be laid out for a wide screen (laptop or desktop), or for phone-shaped screens only?
+**How this is read (to be confirmed by Dave)**
+
+- On a laptop or desktop, the game shows as a phone-shaped portrait column in the middle of the screen, with the landscape filling the space either side.
 
 ---
 
@@ -73,15 +75,11 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 
 **Stated**
 
-- Two lines of text: the topic and the level number.
+- Two lines of text: the topic on the first line, the level number on the second.
 
 **Seen in the reference screenshot**
 
 - Two lines of text: a level number on the first line ("LEVEL 9") and a second label beneath it ("SHINE 1").
-
-**Open questions**
-
-- Which line comes first: the topic or the level number?
 
 ### B. Score / points
 
@@ -89,9 +87,9 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 
 - A coin icon with a number beside it (150).
 
-**Open questions**
+**Stated**
 
-- Is this one figure that is both the player's score and the points spent on clues?
+- Shows the player's score. Clues are paid for from this score (see area F).
 
 ### C. Menu
 
@@ -106,10 +104,8 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
   - Exit back to the subject choice.
   - Quit the whole game.
 
-**Open questions**
-
-- Should speech be on or off when the game starts?
-- A web page cannot reliably close its own browser tab. Should "quit the whole game" return to a start or title screen instead?
+- Speech is on when the game starts.
+- When the player quits, the game asks whether they want to save. A saved game can be resumed later (see section 4).
 
 ### D. Main area (crossword-style words)
 
@@ -166,6 +162,7 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 - There is no timer.
 - There is no give-up. A player who is stuck has to quit the game (see the menu, area C).
 - Each correct word scores +10 points.
+- Completing a level scores an extra +1,000 points.
 - A bonus word scores +20 points. A bonus word is a word the player makes from the wheel's letters that is not on the grid but is in the English word list. For example, the grid expects TOP and the player tries POT.
 - A clue costs 10 points (see area F in section 3). The score cannot go below zero.
 - The wheel has the letters that make all the words in the level.
@@ -173,11 +170,14 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 - Topic words longer than the maximum are not used.
 - Gaps are filled with English words, to make the game work. For example, if a topic has only two 3-letter words but the game wants a four-word level, it takes the other two from the English words.
 - A topic word whose letters make no other words becomes an easy one-word level. For example, the wheel shows B, M and P, and the player learns the word BMP and what it means.
-- English is the default subject.
+- English is the default subject. It has no end: its levels just keep going.
+- Every topic word is a single word. Terms of two or more words are not used.
 
 **Stated: levels and completing a topic**
 
 - When a topic is chosen, the game uses all of that topic's words, filling gaps from the English words as needed.
+- The number of words in a level grows as the levels go up: level 1 has one 3-letter word, level 2 has two 3-letter words, and then the mix gradually increases.
+- A level has at most 8 words, so that it fits on screen. This is a setting and may change after testing.
 - Levels start with 3-letter words. As the levels go up, they move gradually to a mix of 3- to 7-letter words.
 - After that, levels keep going up, using new words.
 - Topic words do not repeat.
@@ -189,13 +189,25 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 - Gap-filling words are English words that can be made from the letters already in the wheel.
 - Each level uses topic words that have not appeared before, so the number of levels in a topic depends on how many words it has.
 
+**Stated: saving and resuming**
+
+- Progress can be saved.
+- When the player tries to quit, the game asks whether they want to save.
+- When the game starts, the player can resume the saved game or choose a new game.
+
+**How this is read (to be confirmed by Dave)**
+
+- The saved game holds the topic, level and score, and which topic words have been used.
+- There is one saved game at a time. Saving a new game replaces it.
+- The save is kept in the browser on that device. It is not available on another device or another browser, and it is lost if the browser's site data is cleared.
+
+**Points to note**
+
+- With +1,000 for each level, a clue (10 points) costs very little after the first level, so from then on the clue button is effectively free. If clues are meant to be a real choice, the clue cost or the level bonus may need adjusting after testing.
+
 **Open questions**
 
-1. **Saving progress.** With no give-up, a stuck player has to quit. When they come back to the topic, do they carry on from the level they reached (with the same score), or start the topic again?
-2. **How many words a level offers.** How many words (topic and English together) should a level have, and should that number grow as the levels go up?
-3. **The english subject.** English has no topics and over 17,000 words, so it would never be "complete". Does it simply keep going, or should it end after a set number of levels?
-4. **Completing a level.** Are any points awarded for finishing a level, beyond the points for each word?
-5. **Topic terms that are not a single word.** How should terms with a space or hyphen be handled (for example "cell wall")? At present the spreadsheet rejects them.
+1. **Screens outside the game.** The specification now implies four screens besides the game itself: a start screen (resume or new game), a subject and topic choice, the save prompt on quitting, and the topic-complete congratulations. Does Dave have visuals in mind for these, or should they be designed in the same soft, see-through style as the game screen?
 
 ---
 
@@ -314,3 +326,4 @@ Sources: [Wordscapes on Google Play](https://play.google.com/store/apps/details?
 - 2026-10-14: Recorded the clue button rules (area F), the sound on/off button (area C), and that all words are read aloud. Added the "Say as" column to the spreadsheet and topic files.
 - 2026-10-14: Settled the clue button rules (area F) and the menu contents (area C).
 - 2026-10-14: Recorded no give-up, level progression and topic completion, the level display (area A), the maximum letters as a setting, the meaning of bonus words, and the moving birds.
+- 2026-10-14: Recorded saving and resuming, words per level (up to 8), the +1,000 level bonus, single-word terms only, speech on at start, the level display order and the portrait layout.
