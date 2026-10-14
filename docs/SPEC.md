@@ -2,7 +2,7 @@
 
 This document records how the game should look and work, as described by Dave. It is the reference for the first build.
 
-**Status: incomplete. Do not build until Dave says to.** The screen layout, game logic and subject folder layout are recorded below. The english word lists and a first set of topic words are in place. More topic words and images are still to come, and the open questions in each section are not yet settled.
+**Status: ready for review. Do not build until Dave says to.** All open questions have been answered. Points marked "How this is read (to be confirmed by Dave)" are Claude's readings of what Dave said and should be checked before the build. More topic words can be added at any time.
 
 Each section separates three things:
 
@@ -262,7 +262,7 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 - Speech uses the browser's built-in voice, set to British English. This needs no recorded audio files, but the voice sounds different on different devices and browsers.
 - The "Say as" column is optional and filled in only where needed. Entries added so far: BMP as "B. M. P.", SVG as "S. V. G." and JPG as "J. P. G.". GIF has none and is said as written. Dave to check these.
 
-**Open questions**
+**Points to note**
 
 - English fill and bonus words come from the word lists, which have no "Say as" column. If the voice says one of them wrongly, it can only be fixed by removing the word from the list.
 
@@ -343,3 +343,4 @@ Sources: [Wordscapes on Google Play](https://play.google.com/store/apps/details?
 - 2026-10-14: Recorded no give-up, level progression and topic completion, the level display (area A), the maximum letters as a setting, the meaning of bonus words, and the moving birds.
 - 2026-10-14: Recorded saving and resuming, words per level (up to 8), the +1,000 level bonus, single-word terms only, speech on at start, the level display order and the portrait layout.
 - 2026-10-14: Recorded the style of the other screens. Added the default backgrounds, the per-topic backgrounds folders and the background list tool (section 7).
+- 2026-10-14: All open questions answered; specification ready for review.
