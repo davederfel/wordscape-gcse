@@ -40,6 +40,10 @@ raster,An image made of tiny coloured squares called pixels,
 bmp,An uncompressed image file format that produces large file sizes but good image quality,B. M. P.
 ```
 
+## A topic's own backgrounds
+
+A topic folder can also hold a `backgrounds` folder with its own landscape pictures. See [assets/backgrounds/README.md](../assets/backgrounds/README.md). Rebuilding the word files does not touch it.
+
 ## The english subject
 
 `english` is the default subject and has no topics. Its words are also used to fill gaps in other subjects' levels and to accept bonus words. See [english/README.md](english/README.md).

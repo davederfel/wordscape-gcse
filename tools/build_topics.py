@@ -11,11 +11,11 @@ Folder names are the subject and topic in lower case, with spaces replaced by hy
 
 Rows that fail the spreadsheet's rules (3 to 7 letters, A to Z only, subject and topic
 filled in, no duplicate within a topic) are skipped and listed on screen.
-Existing topic folders under subjects/ (other than english) are rebuilt from scratch.
+Each topic's words.csv is rewritten. Word files for topics no longer in the spreadsheet are
+removed; anything else in a topic folder (such as its own backgrounds) is left alone.
 """
 import csv
 import re
-import shutil
 import sys
 from pathlib import Path
 
@@ -53,9 +53,16 @@ def main(path):
         else:
             topics[(slug(subject), slug(topic))][w] = (clue, say)
 
-    for d in SUBJECTS.iterdir():
-        if d.is_dir() and d.name != "english":
-            shutil.rmtree(d)
+    # Remove word files for topics no longer in the spreadsheet. Other files in topic
+    # folders (such as a topic's own backgrounds) are left alone.
+    wanted = {SUBJECTS / s / tp / "words.csv" for (s, tp), w in topics.items() if w}
+    for old in SUBJECTS.glob("*/*/words.csv"):
+        if old not in wanted:
+            old.unlink()
+            print(f"Removed {old.relative_to(ROOT)} (topic no longer in the spreadsheet)")
+            for d in (old.parent, old.parent.parent):
+                if d.is_dir() and not any(d.iterdir()):
+                    d.rmdir()
     for (subject, topic), words in sorted(topics.items()):
         if not words:
             continue

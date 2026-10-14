@@ -1,0 +1,13 @@
+{
+  "default": [
+    "assets/backgrounds/blue-morning.jpg",
+    "assets/backgrounds/dawn-mist.jpg",
+    "assets/backgrounds/golden-hills.jpg",
+    "assets/backgrounds/green-valley.jpg",
+    "assets/backgrounds/lavender-dusk.jpg",
+    "assets/backgrounds/snow-peaks.jpg",
+    "assets/backgrounds/sunset-lake.jpg",
+    "assets/backgrounds/teal-fjord.jpg"
+  ],
+  "topics": {}
+}
