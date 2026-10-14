@@ -27,7 +27,7 @@ Each section separates three things:
 
 - Wordscapes is used as inspiration for how the game plays and feels only. The game's words, images and code are original, and nothing is taken from the Wordscapes app itself (including its installation file).
 
-Background notes on how Wordscapes works are in section 8.
+Background notes on how Wordscapes works are in section 9.
 
 ---
 
@@ -150,6 +150,7 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 - When a topic is chosen, the game uses all of that topic's words, then fills gaps from the English words as needed.
 - The wheel has the letters that make all the words in the level.
 - The wheel has a maximum of 7 letters.
+- A topic word whose letters make no other words becomes an easy one-word level. For example, the wheel shows B, M and P, and the player learns the word BMP and what it means.
 
 **How this is read (to be confirmed by Dave)**
 
@@ -200,17 +201,46 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 
 - If a clue shows a written hint or definition (see area F), each topic word will need its hint stored beside it in the words file.
 - Dave has provided a first set of words: computer / Digital Media (9 words), maths / algebra (36) and science / cells (2). The master copy is `subjects/wordscape-gcse-words.xlsx`.
-- Some topic words have few or no other English words in their letters, so their levels would be thin or contain only that word. Examples: CELL, BASE, TERM, ROOT, VALUE, and the file formats JPG, BMP, SVG and GIF (which have no vowels or are not English words). How should these be handled?
+
 
 ---
 
-## 6. Images
+## 6. Spoken words and meanings
+
+**Stated**
+
+- When the player gets a word correct, the game says the word out loud, then reads out its clue. For example, on completing CELL it says "Cell", then "The basic unit of all living things".
+- This happens while the word is animated, drawing and filling in on the grid.
+- The purpose is for the player to hear how the word is said correctly and what it means.
+
+**Proposed (not yet confirmed by Dave)**
+
+- Speech uses the browser's built-in voice, set to British English. This needs no recorded audio files, but the voice sounds different on different devices and browsers.
+- An optional "Say as" column in the word spreadsheet, for words the voice would say wrongly. Abbreviations are the main case: without it, BMP may be read as one made-up word. For example:
+
+  | Word | Say as |
+  |---|---|
+  | bmp | B M P |
+  | svg | S V G |
+  | jpg | jay peg |
+  | gif | gif |
+
+**Open questions**
+
+1. **Which words are spoken.** Only topic words (which have clues), or also English fill words and bonus words? Fill and bonus words have no clue, so they could be spoken without a meaning, or not at all.
+2. **Topic words without a clue.** Say the word only?
+3. **Sound on and off.** Should there be a button to turn speech off, for example in a classroom? If so, should it be on or off by default?
+4. **The clue button (area F).** The clue text is now read out after a word is solved. What does spending 10 points on a clue give before it is solved: the same clue text, a revealed letter, or something else?
+
+---
+
+## 7. Images
 
 To be provided by Dave. Each level/topic needs its own landscape background (see section 2).
 
 ---
 
-## 7. Reference material
+## 8. Reference material
 
 Dave's two reference images are held in the "wordscape GCSE" project files:
 
@@ -221,7 +251,7 @@ They are not stored in this repository, because the repository is public and the
 
 ---
 
-## 8. Background: how Wordscapes works
+## 9. Background: how Wordscapes works
 
 These notes describe the app that inspired this game. **They are background, not requirements.** Nothing here is part of the game unless Dave confirms it in the sections above.
 
@@ -253,9 +283,10 @@ Sources: [Wordscapes on Google Play](https://play.google.com/store/apps/details?
 ## Change log
 
 - 2026-10-11: First version. Recorded the overview, look and feel, and screen layout (areas A to G).
-- 2026-10-11: Recorded the inspiration (Wordscapes by PeopleFun) and the working name. Added background notes on how Wordscapes works (section 8).
+- 2026-10-11: Recorded the inspiration (Wordscapes by PeopleFun) and the working name. Added background notes on how Wordscapes works (section 9).
 - 2026-10-11: Recorded the game logic (section 4) and the subjects and topics folder layout (section 5). Added the english word lists under `subjects/english/`.
 - 2026-10-11: Recorded that a level uses all of a topic's words and that the wheel holds the letters for all of them. Added the wheel-size question, with test figures.
 - 2026-10-11: Recorded the 7-letter maximum for the wheel. Replaced the wheel-size question with its consequences (longer terms, grouping words into levels). Added the proposed spreadsheet layout for word lists.
 - 2026-10-14: Added the word list spreadsheet template.
 - 2026-10-14: Added Dave's first word list (47 words in three topics) and the tool that builds topic files from it. Topic files changed from `words.txt` to `words.csv` to hold clues.
+- 2026-10-14: Recorded one-word levels for topic words with no fill words. Added spoken words and meanings (section 6).
