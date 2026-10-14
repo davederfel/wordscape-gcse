@@ -46,9 +46,11 @@ Background notes on how Wordscapes works are in section 9.
 - A tall, phone-shaped (portrait) screen.
 - Round, dark, semi-transparent buttons with white icons.
 
+- The landscape is a long-distance scenic view.
+- A small flock of birds moves slowly around in the background.
+
 **Open questions**
 
-- Are the birds animated (moving across the sky) or part of a still image?
 - Should the game also be laid out for a wide screen (laptop or desktop), or for phone-shaped screens only?
 
 ---
@@ -69,14 +71,17 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 
 ### A. Level information
 
+**Stated**
+
+- Two lines of text: the topic and the level number.
+
 **Seen in the reference screenshot**
 
 - Two lines of text: a level number on the first line ("LEVEL 9") and a second label beneath it ("SHINE 1").
 
 **Open questions**
 
-- How do level, subject and topic relate? For example, is each level one subject, or does each topic have several levels?
-- What should the two lines show (for example, level number on the first line and subject or topic on the second)?
+- Which line comes first: the topic or the level number?
 
 ### B. Score / points
 
@@ -156,37 +161,41 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 
 ## 4. Game logic
 
-**Stated**
+**Stated: playing a level**
 
 - There is no timer.
-- The player can give up on a level if they cannot carry on.
+- There is no give-up. A player who is stuck has to quit the game (see the menu, area C).
 - Each correct word scores +10 points.
-- A bonus word scores +20 points. Any English word counts as a bonus word.
+- A bonus word scores +20 points. A bonus word is a word the player makes from the wheel's letters that is not on the grid but is in the English word list. For example, the grid expects TOP and the player tries POT.
 - A clue costs 10 points (see area F in section 3). The score cannot go below zero.
-- The letter count starts at 3 and goes up to the length of the longest word provided in the subject area.
-- Gaps are filled with any English word, to make the game work.
-- English is the default.
-- Example of gap filling: if a subject and topic have only two 3-letter words, but the game wants to offer a four-word game, it takes the other two words from the English dictionary.
-- When a topic is chosen, the game uses all of that topic's words, then fills gaps from the English words as needed.
 - The wheel has the letters that make all the words in the level.
-- The wheel has a maximum of 7 letters.
+- The wheel has a maximum of 7 letters. This is a setting, not a fixed rule: it may be increased after testing.
+- Topic words longer than the maximum are not used.
+- Gaps are filled with English words, to make the game work. For example, if a topic has only two 3-letter words but the game wants a four-word level, it takes the other two from the English words.
 - A topic word whose letters make no other words becomes an easy one-word level. For example, the wheel shows B, M and P, and the player learns the word BMP and what it means.
+- English is the default subject.
+
+**Stated: levels and completing a topic**
+
+- When a topic is chosen, the game uses all of that topic's words, filling gaps from the English words as needed.
+- Levels start with 3-letter words. As the levels go up, they move gradually to a mix of 3- to 7-letter words.
+- After that, levels keep going up, using new words.
+- Topic words do not repeat.
+- When every topic word has been used at least once and completed, the topic is complete. The game shows a congratulations message and returns to the start, to choose a topic.
 
 **How this is read (to be confirmed by Dave)**
 
-- A level contains several topic words. The wheel holds every letter needed to spell each of them, so it can have more letters than any one word. For example, ION and GAS together need the six letters A, G, I, N, O, S.
+- A level can contain more than one topic word, as long as all of them fit on the wheel. For example, ION and GAS together need the six letters A, G, I, N, O, S.
 - Gap-filling words are English words that can be made from the letters already in the wheel.
-- Levels run by word length, starting with the topic's 3-letter words and working up to its 7-letter words.
+- Each level uses topic words that have not appeared before, so the number of levels in a topic depends on how many words it has.
 
 **Open questions**
 
-1. **Topic words longer than 7 letters.** With a 7-letter wheel, a word of 8 letters or more cannot be spelled, so it cannot appear in the game. Many GCSE terms are longer than this (for example FRACTION, MEMBRANE, EQUATION). This also replaces the earlier rule that the letter count runs "up to the longest word in the subject area". Are longer terms simply left out, or should they be handled another way?
-2. **How topic words are grouped into levels.** A 7-letter wheel usually has room for one topic word, and sometimes two short ones (ION and GAS need 6 letters; CELL and GENE need 7; CELL, GENE and ATOM need 11). So a topic's words will be spread over a run of levels, each with one or two topic words and the rest filled from English. How should the game choose which words share a level?
-3. **Giving up.** What happens when the player gives up: are the answers shown, are any points lost, and does the game move to the next level?
-4. **Bonus words score more than puzzle words.** A bonus word (+20) is worth twice a correct puzzle word (+10), so the off-topic words earn more than the topic's own. Is that intended?
-5. **How many words a level offers.** In the example the game "wants to offer a four-word game". How is the number of words in a level decided?
-6. **Topic terms that are not a single word.** How should terms with a space or hyphen be handled (for example "cell wall")?
-7. **Completing a level.** Are any points awarded for finishing a level, beyond the points for each word?
+1. **Saving progress.** With no give-up, a stuck player has to quit. When they come back to the topic, do they carry on from the level they reached (with the same score), or start the topic again?
+2. **How many words a level offers.** How many words (topic and English together) should a level have, and should that number grow as the levels go up?
+3. **The english subject.** English has no topics and over 17,000 words, so it would never be "complete". Does it simply keep going, or should it end after a set number of levels?
+4. **Completing a level.** Are any points awarded for finishing a level, beyond the points for each word?
+5. **Topic terms that are not a single word.** How should terms with a space or hyphen be handled (for example "cell wall")? At present the spreadsheet rejects them.
 
 ---
 
@@ -304,3 +313,4 @@ Sources: [Wordscapes on Google Play](https://play.google.com/store/apps/details?
 - 2026-10-14: Recorded one-word levels for topic words with no fill words. Added spoken words and meanings (section 6).
 - 2026-10-14: Recorded the clue button rules (area F), the sound on/off button (area C), and that all words are read aloud. Added the "Say as" column to the spreadsheet and topic files.
 - 2026-10-14: Settled the clue button rules (area F) and the menu contents (area C).
+- 2026-10-14: Recorded no give-up, level progression and topic completion, the level display (area A), the maximum letters as a setting, the meaning of bonus words, and the moving birds.
