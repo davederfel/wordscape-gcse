@@ -2,7 +2,7 @@
 
 This document records how the game should look and work, as described by Dave. It is the reference for the first build.
 
-**Status: ready for review. Do not build until Dave says to.** All open questions have been answered. Points marked "How this is read (to be confirmed by Dave)" are Claude's readings of what Dave said and should be checked before the build. More topic words can be added at any time.
+**Status: first test build.** The game has been built from this specification for a first test (see the README for how to play it). Points marked "How this is read (to be confirmed by Dave)" are Claude's readings of what Dave said, built as described; they can be changed after testing.
 
 Each section separates three things:
 
@@ -146,6 +146,7 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 - When the letter just revealed completes the last unsolved word, there is nothing left to read out, so only the letter is revealed.
 - When both fall due on the same press (15, 30 and so on), the clue is read first, then the word is said.
 - The message shows whenever the score is under 10, even if it is not zero.
+- A word whose last hidden letter is revealed by a clue counts as found. It is read aloud with its clue, but does not score the +10 for a word.
 
 ### G. Letter wheel
 
@@ -204,6 +205,12 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 **Points to note**
 
 - With +1,000 for each level, a clue (10 points) costs very little after the first level, so from then on the clue button is effectively free. If clues are meant to be a real choice, the clue cost or the level bonus may need adjusting after testing.
+
+**How this is read in the first build (to be confirmed by Dave)**
+
+- On a laptop, words can also be typed: letters to build a word, Backspace to remove a letter, Enter to try it, Esc to clear it, and Space to spin the letters.
+- Levels are made fresh each time: the same topic gives different levels, and different fill words, on each new game. Topic words still appear once each.
+- A word made from the wheel that is too short (under 3 letters) or not a real word is rejected with a shake. It costs nothing.
 
 **Stated: other screens**
 
@@ -344,3 +351,4 @@ Sources: [Wordscapes on Google Play](https://play.google.com/store/apps/details?
 - 2026-10-14: Recorded saving and resuming, words per level (up to 8), the +1,000 level bonus, single-word terms only, speech on at start, the level display order and the portrait layout.
 - 2026-10-14: Recorded the style of the other screens. Added the default backgrounds, the per-topic backgrounds folders and the background list tool (section 7).
 - 2026-10-14: All open questions answered; specification ready for review.
+- 2026-10-14: First test build published. Recorded the readings made while building (words completed by a clue, typing on a laptop, levels made fresh each game).
