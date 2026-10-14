@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wordscape GCSE</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@600;700;800&display=swap">
+<style>
+/* Layout: a phone-shaped portrait column over a full-screen landscape; on wide screens the landscape fills both sides. */
+:root {
+  color-scheme: light;
+  --tile: rgba(255, 249, 242, 0.62);        /* see-through letter tile */
+  --tile-edge: rgba(255, 255, 255, 0.75);
+  --ink: #3b2a31;                            /* letters and panel text */
+  --ink-soft: #6c5660;
+  --accent: #e8577f;                         /* found words, wheel trail */
+  --accent-deep: #c63f67;
+  --glass-dark: rgba(44, 28, 36, 0.5);       /* round buttons */
+  --glass-light: rgba(255, 250, 246, 0.74);  /* panels and dialogs */
+  --wheel: rgba(255, 250, 246, 0.5);
+  --coin: #f2b331;
+  --on-dark: #ffffff;
+  --display: "Baloo 2", "Trebuchet MS", system-ui, sans-serif;
+  --body: "Nunito", "Segoe UI", system-ui, sans-serif;
+}
+[hidden] { display: none !important; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  overflow: hidden;
+  background: #c98a5a;
+  color: var(--ink);
+  font-family: var(--body);
+  -webkit-tap-highlight-color: transparent;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0;
+  box-sizing: border-box;
+}
+button { font: inherit; color: inherit; }
+button:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+
+/* ---------- the landscape ---------- */
+.scene { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.scene .bg {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center 40%;
+  opacity: 0; transition: opacity 1.2s ease;
+}
+.scene .bg.on { opacity: 1; }
+#birds { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* ---------- the portrait column ---------- */
+.app {
+  position: relative; z-index: 1;
+  height: 100%;
+  aspect-ratio: 9 / 16;
+  max-width: 100%;
+  margin: 0 auto;
+  container-type: size;
+  user-select: none; -webkit-user-select: none;
+}
+.screen { position: absolute; inset: 0; display: flex; flex-direction: column; }
+
+/* ---------- menu screens ---------- */
+.menu-screen { justify-content: center; align-items: center; gap: 4cqw; padding: 8cqw 4cqw; box-sizing: border-box; }
+.title {
+  font-family: var(--display); font-weight: 800; color: var(--on-dark);
+  font-size: 13cqw; line-height: 0.9; text-align: center; margin: 0;
+  text-shadow: 0 0.6cqw 2.4cqw rgba(60, 30, 40, 0.35);
+}
+.title small { display: block; font-size: 0.42em; letter-spacing: 0.35em; margin-top: 1.5cqw; padding-left: 0.35em; }
+.tagline { color: var(--on-dark); font-weight: 700; font-size: 4.2cqw; margin: 0 0 4cqw; text-align: center; text-wrap: balance; max-width: 72cqw; text-shadow: 0 0.3cqw 1.5cqw rgba(60, 30, 40, 0.4); }
+.panel {
+  width: 100%; box-sizing: border-box;
+  background: var(--glass-light);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 5cqw; padding: 5cqw;
+  display: flex; flex-direction: column; gap: 3cqw;
+  box-shadow: 0 2cqw 6cqw rgba(60, 30, 40, 0.18);
+}
+.panel h2 { font-family: var(--display); font-size: 7cqw; margin: 0; line-height: 1.1; text-wrap: balance; }
+.panel p { margin: 0; font-size: 4cqw; color: var(--ink-soft); line-height: 1.4; }
+.big-btn {
+  border: 0; border-radius: 4cqw; cursor: pointer;
+  padding: 3.6cqw 5cqw; font-size: 5cqw; font-weight: 800;
+  background: var(--accent); color: #fff;
+  box-shadow: 0 1cqw 0 var(--accent-deep);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.big-btn:active { transform: translateY(0.8cqw); box-shadow: 0 0.2cqw 0 var(--accent-deep); }
+.big-btn.quiet { background: rgba(255, 255, 255, 0.85); color: var(--ink); box-shadow: 0 1cqw 0 rgba(120, 90, 100, 0.25); }
+.choice-list { display: flex; flex-direction: column; gap: 2.4cqw; max-height: 62cqh; overflow-y: auto; }
+.choice {
+  display: flex; justify-content: space-between; align-items: center; gap: 3cqw;
+  border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 3.5cqw; cursor: pointer;
+  padding: 3.5cqw 4.5cqw; background: rgba(255, 255, 255, 0.7); text-align: left;
+  font-size: 5cqw; font-weight: 800; color: var(--ink);
+}
+.choice span { font-size: 3.6cqw; font-weight: 700; color: var(--ink-soft); white-space: nowrap; }
+.choice:hover { background: #fff; }
+.back-btn { align-self: flex-start; border: 0; background: none; cursor: pointer; font-weight: 800; font-size: 4cqw; color: var(--accent-deep); padding: 0; }
+.resume-meta { font-weight: 800; color: var(--ink); font-size: 4.4cqw; }
+.cap::first-letter { text-transform: uppercase; }
+
+/* ---------- game screen: areas A to G ---------- */
+.game { padding-top: 3cqw; }
+.topbar { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 2cqw; gap: 2cqw; }
+.round-btn {
+  width: 12.5cqw; height: 12.5cqw; border-radius: 50%;
+  display: grid; place-items: center; cursor: pointer;
+  background: var(--glass-dark); border: 0.6cqw solid rgba(255, 255, 255, 0.85);
+  color: var(--on-dark);
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+}
+.round-btn svg { width: 64%; height: 64%; }
+.round-btn:active { transform: scale(0.94); }
+.level-info { text-align: center; color: var(--on-dark); font-family: var(--display); line-height: 1; text-shadow: 0 0.4cqw 1.6cqw rgba(50, 25, 35, 0.45); }
+.level-info .topic { font-size: 5.4cqw; font-weight: 800; letter-spacing: 0.04em; max-width: 46cqw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.level-info .lvl { font-size: 7.6cqw; font-weight: 800; }
+.score {
+  justify-self: end; display: flex; align-items: center;
+  background: var(--glass-dark); border-radius: 99px; padding: 0.8cqw 4cqw 0.8cqw 0.8cqw; gap: 2cqw;
+  color: var(--on-dark); font-weight: 800; font-size: 5cqw; font-variant-numeric: tabular-nums;
+}
+.score .coin { width: 9cqw; height: 9cqw; flex: none; }
+.score.bump { animation: bump 0.4s ease; }
+@keyframes bump { 40% { transform: scale(1.12); } }
+
+.board-wrap { position: relative; flex: 1 1 auto; min-height: 0; margin: 3cqw 3cqw 0; }
+.board { position: absolute; inset: 0; }
+.grid { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+.cell {
+  position: absolute; box-sizing: border-box;
+  display: grid; place-items: center;
+  background: var(--tile); border: 1px solid var(--tile-edge);
+  border-radius: 18%;
+  font-family: var(--display); font-weight: 800; color: var(--ink);
+  line-height: 1; text-transform: uppercase;
+  box-shadow: 0 0.12em 0.25em rgba(80, 40, 50, 0.12);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+.cell .ch { transform: translateY(0.06em); }
+.cell.found { background: var(--accent); border-color: rgba(255, 255, 255, 0.5); color: #fff; }
+.cell.pop { animation: pop 0.38s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes pop { 0% { transform: scale(0.55); } 100% { transform: scale(1); } }
+
+.toast {
+  position: absolute; left: 50%; top: 1cqw; transform: translate(-50%, -1cqw);
+  background: var(--glass-light); color: var(--ink); font-weight: 800; font-size: 4.2cqw;
+  padding: 1.6cqw 4cqw; border-radius: 99px; white-space: nowrap;
+  opacity: 0; transition: opacity 0.25s ease, transform 0.25s ease; pointer-events: none; z-index: 5;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+.toast.good { background: var(--accent); color: #fff; }
+.clue-text {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 4;
+  background: var(--glass-light); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  border-radius: 4cqw; padding: 3cqw 4cqw; font-size: 4.4cqw; font-weight: 700; line-height: 1.35;
+  text-align: center; color: var(--ink);
+  opacity: 0; transform: translateY(2cqw); transition: opacity 0.3s ease, transform 0.3s ease; pointer-events: none;
+}
+.clue-text.show { opacity: 1; transform: none; }
+.clue-text b { display: block; font-size: 3.2cqw; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-deep); margin-bottom: 0.6cqw; }
+
+.current { height: 11cqw; display: flex; justify-content: center; align-items: center; gap: 1cqw; margin-top: 1cqw; }
+.current .ch {
+  min-width: 7.5cqw; height: 9cqw; padding: 0 1cqw; box-sizing: border-box; display: grid; place-items: center;
+  background: var(--accent); color: #fff; border-radius: 2cqw;
+  font-family: var(--display); font-weight: 800; font-size: 6.4cqw; text-transform: uppercase;
+}
+.current.shake { animation: shake 0.4s ease; }
+.current.fade { opacity: 0; transition: opacity 0.35s ease 0.15s; }
+@keyframes shake { 20%, 60% { transform: translateX(-2.2cqw); } 40%, 80% { transform: translateX(2.2cqw); } }
+
+.wheel-area { position: relative; height: 74cqw; flex: none; }
+.side-btn { position: absolute; top: 0; }
+.side-btn.left { left: 2cqw; }
+.side-btn.right { right: 2cqw; }
+.side-btn .round-btn { width: 15cqw; height: 15cqw; }
+.clue-btn { flex-direction: column; gap: 0; }
+.clue-btn svg { width: 52%; height: 52%; margin-top: -0.6cqw; }
+.clue-cost { font-size: 3.6cqw; font-weight: 800; display: flex; align-items: center; gap: 0.6cqw; margin-top: -0.6cqw; }
+.clue-cost i { width: 2.8cqw; height: 2.8cqw; border-radius: 50%; background: var(--coin); display: inline-block; }
+.wheel {
+  position: absolute; left: 50%; top: 2cqw; transform: translateX(-50%);
+  width: 68cqw; height: 68cqw; border-radius: 50%;
+  background: var(--wheel); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.55);
+  touch-action: none; cursor: pointer;
+}
+.wheel svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.wheel .letter {
+  position: absolute; transform: translate(-50%, -50%);
+  width: 17cqw; height: 17cqw; border-radius: 50%; display: grid; place-items: center;
+  font-family: var(--display); font-weight: 800; color: var(--ink); text-transform: uppercase;
+  transition: left 0.35s ease, top 0.35s ease, background-color 0.15s ease, color 0.15s ease;
+  pointer-events: none;
+}
+.wheel .letter.on { background: var(--accent); color: #fff; }
+
+/* ---------- menu and dialogs ---------- */
+.menu {
+  position: absolute; left: 2cqw; top: 17cqw; z-index: 20; width: 64cqw;
+  background: var(--glass-light); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 4.5cqw; padding: 2cqw;
+  display: flex; flex-direction: column; gap: 1cqw; box-shadow: 0 2cqw 6cqw rgba(60, 30, 40, 0.25);
+}
+.menu button {
+  display: flex; align-items: center; justify-content: space-between; gap: 3cqw;
+  border: 0; background: none; padding: 3cqw 3.4cqw; border-radius: 3cqw; cursor: pointer;
+  font-size: 4.6cqw; font-weight: 800; text-align: left; color: var(--ink);
+}
+.menu button:hover { background: rgba(255, 255, 255, 0.7); }
+.pill { font-size: 3.6cqw; padding: 0.8cqw 2.6cqw; border-radius: 99px; background: var(--accent); color: #fff; }
+.pill.off { background: #a99aa1; }
+.overlay {
+  position: absolute; inset: 0; z-index: 30;
+  background: rgba(50, 28, 38, 0.32);
+  display: flex; align-items: center; justify-content: center; padding: 6cqw; box-sizing: border-box;
+}
+.overlay .panel { text-align: center; }
+.overlay .panel .row { display: flex; flex-direction: column; gap: 2.6cqw; margin-top: 2cqw; }
+.points-big { font-family: var(--display); font-weight: 800; font-size: 11cqw; color: var(--accent-deep); line-height: 1; }
+.notice { color: var(--on-dark); font-weight: 700; font-size: 3.8cqw; text-align: center; text-shadow: 0 0.3cqw 1.2cqw rgba(50, 25, 35, 0.5); }
+
+@media (prefers-reduced-motion: reduce) {
+  .cell.pop, .score.bump, .current.shake { animation: none; }
+  .scene .bg { transition: none; }
+}
+</style>
+</head>
+<body>
+<div class="scene" aria-hidden="true">
+  <div class="bg" id="bgA"></div>
+  <div class="bg" id="bgB"></div>
+  <canvas id="birds"></canvas>
+</div>
+
+<main class="app" id="app">
+  <!-- start: resume or new game -->
+  <section class="screen menu-screen" id="screenStart">
+    <h1 class="title">Wordscape<small>GCSE</small></h1>
+    <p class="tagline">Find the words. Hear them. Learn what they mean.</p>
+    <div class="panel" id="resumePanel" hidden>
+      <h2>Carry on</h2>
+      <p class="resume-meta" id="resumeMeta"></p>
+      <button class="big-btn" id="resumeBtn" type="button">Resume</button>
+    </div>
+    <div class="panel">
+      <button class="big-btn" id="newGameBtn" type="button">New game</button>
+    </div>
+    <p class="notice" id="loadNotice" hidden></p>
+  </section>
+
+  <!-- choose a subject -->
+  <section class="screen menu-screen" id="screenSubjects" hidden>
+    <div class="panel">
+      <button class="back-btn" id="subjectsBack" type="button">‹ Back</button>
+      <h2>Choose a subject</h2>
+      <div class="choice-list" id="subjectList"></div>
+    </div>
+  </section>
+
+  <!-- choose a topic -->
+  <section class="screen menu-screen" id="screenTopics" hidden>
+    <div class="panel">
+      <button class="back-btn" id="topicsBack" type="button">‹ Subjects</button>
+      <h2 class="cap" id="topicsTitle">Topics</h2>
+      <div class="choice-list" id="topicList"></div>
+    </div>
+  </section>
+
+  <!-- the game -->
+  <section class="screen game" id="screenGame" hidden>
+    <header class="topbar">
+      <div><button class="round-btn" id="menuBtn" type="button" aria-label="Menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 7h14M5 12h14M5 17h14"/></svg>
+      </button></div>
+      <div class="level-info" aria-live="polite">
+        <div class="topic cap" id="topicName"></div>
+        <div class="lvl" id="levelName"></div>
+      </div>
+      <div class="score" id="score" aria-label="Score">
+        <svg class="coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#f2b331"/><circle cx="12" cy="12" r="7.6" fill="none" stroke="#fff3c9" stroke-width="1.6"/><path d="M12 8.2l1.2 2.5 2.7.4-2 1.9.5 2.7-2.4-1.3-2.4 1.3.5-2.7-2-1.9 2.7-.4z" fill="#fff3c9"/></svg>
+        <span id="scoreValue">0</span>
+      </div>
+    </header>
+
+    <div class="board-wrap" id="boardWrap">
+      <div class="board" id="board"><div class="grid" id="grid"></div></div>
+      <div class="toast" id="toast" role="status"></div>
+      <div class="clue-text" id="clueText" aria-live="polite"></div>
+    </div>
+
+    <div class="current" id="current" aria-live="polite"></div>
+
+    <div class="wheel-area">
+      <div class="side-btn left">
+        <button class="round-btn" id="shuffleBtn" type="button" aria-label="Spin the letters">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h3.5c3 0 4.5 10 8 10H21"/><path d="M3 17h3.5c1.4 0 2.4-2.2 3.4-4.6"/><path d="M14.1 9.6C15 8.2 15.9 7 17.5 7H21"/><path d="M18 4l3 3-3 3M18 14l3 3-3 3"/></svg>
+        </button>
+      </div>
+      <div class="side-btn right">
+        <button class="round-btn clue-btn" id="clueBtn" type="button" aria-label="Clue, costs 10 points">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.7.6 1.1 1.4 1.1 2.2h5c0-.8.4-1.6 1.1-2.2A6 6 0 0 0 12 3z"/></svg>
+          <span class="clue-cost"><span id="clueCost">10</span><i></i></span>
+        </button>
+      </div>
+      <div class="wheel" id="wheel" role="application" aria-label="Letter wheel. Drag across the letters to make a word, or type on the keyboard.">
+        <svg id="trail"><polyline id="trailLine" fill="none" stroke="#e8577f" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/></svg>
+      </div>
+    </div>
+  </section>
+
+  <div class="menu" id="menu" hidden>
+    <button type="button" id="speechToggle">Speech <span class="pill" id="speechState">On</span></button>
+    <button type="button" id="exitBtn">Exit to subjects</button>
+    <button type="button" id="quitBtn">Quit game</button>
+  </div>
+
+  <div class="overlay" id="overlay" hidden>
+    <div class="panel" id="dialog" role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
+      <h2 id="dialogTitle"></h2>
+      <div id="dialogBody"></div>
+      <div class="row" id="dialogButtons"></div>
+    </div>
+  </div>
+</main>
+
+<script type="module" src="src/app.js"></script>
+</body>
+</html>

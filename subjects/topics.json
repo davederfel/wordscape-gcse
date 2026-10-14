@@ -1,0 +1,40 @@
+{
+  "subjects": [
+    {
+      "key": "computer",
+      "name": "computer",
+      "topics": [
+        {
+          "key": "digital-media",
+          "name": "Digital Media",
+          "words": 9,
+          "file": "subjects/computer/digital-media/words.csv"
+        }
+      ]
+    },
+    {
+      "key": "maths",
+      "name": "maths",
+      "topics": [
+        {
+          "key": "algebra",
+          "name": "algebra",
+          "words": 36,
+          "file": "subjects/maths/algebra/words.csv"
+        }
+      ]
+    },
+    {
+      "key": "science",
+      "name": "science",
+      "topics": [
+        {
+          "key": "cells",
+          "name": "cells",
+          "words": 2,
+          "file": "subjects/science/cells/words.csv"
+        }
+      ]
+    }
+  ]
+}

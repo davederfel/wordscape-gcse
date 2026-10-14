@@ -11,10 +11,11 @@ Folder names are the subject and topic in lower case, with spaces replaced by hy
 
 Rows that fail the spreadsheet's rules (3 to 7 letters, A to Z only, subject and topic
 filled in, no duplicate within a topic) are skipped and listed on screen.
-Each topic's words.csv is rewritten. Word files for topics no longer in the spreadsheet are
+Each topic's words.csv is rewritten, and subjects/topics.json lists every subject and topic. Word files for topics no longer in the spreadsheet are
 removed; anything else in a topic folder (such as its own backgrounds) is left alone.
 """
 import csv
+import json
 import re
 import sys
 from pathlib import Path
@@ -36,7 +37,7 @@ def main(path):
     hdr = [str(v or "").strip().lower() for v in next(rows)]
     col = {k: next(i for i, h in enumerate(hdr) if h.startswith(k)) for k in ("subject", "topic", "word", "clue")}
     say_i = next((i for i, h in enumerate(hdr) if h.startswith("say as")), None)
-    topics, skipped = {}, []
+    topics, skipped, names = {}, [], {}
     for n, row in enumerate(rows, start=2):
         cell = lambda i: "" if i is None or i >= len(row) or row[i] is None else str(row[i]).strip()
         subject, topic, word, clue = (cell(col[k]) for k in ("subject", "topic", "word", "clue"))
@@ -52,6 +53,8 @@ def main(path):
             skipped.append((n, word, "duplicate in this topic"))
         else:
             topics[(slug(subject), slug(topic))][w] = (clue, say)
+            names.setdefault(slug(subject), subject)
+            names.setdefault((slug(subject), slug(topic)), topic)
 
     # Remove word files for topics no longer in the spreadsheet. Other files in topic
     # folders (such as a topic's own backgrounds) are left alone.
@@ -74,6 +77,17 @@ def main(path):
             for w, (c, s) in words.items():
                 out.writerow([w, c, s])
         print(f"{subject}/{topic}: {len(words)} words")
+    # The list of subjects and topics the game reads (a web page cannot look inside folders).
+    index = {"subjects": []}
+    for s in sorted({s for (s, _), w in topics.items() if w}):
+        entry = {"key": s, "name": names[s], "topics": []}
+        for (s2, tp), words in sorted(topics.items()):
+            if s2 == s and words:
+                entry["topics"].append({"key": tp, "name": names[(s2, tp)], "words": len(words),
+                                        "file": f"subjects/{s}/{tp}/words.csv"})
+        index["subjects"].append(entry)
+    (SUBJECTS / "topics.json").write_text(json.dumps(index, indent=2) + "\n")
+    print("Written subjects/topics.json")
     for n, word, why in skipped:
         print(f"Skipped row {n} ({word}): {why}")
 
