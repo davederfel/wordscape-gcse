@@ -21,6 +21,42 @@
           "name": "algebra",
           "words": 36,
           "file": "subjects/maths/algebra/words.csv"
+        },
+        {
+          "key": "averages",
+          "name": "Averages",
+          "words": 7,
+          "file": "subjects/maths/averages/words.csv"
+        },
+        {
+          "key": "number",
+          "name": "Number",
+          "words": 6,
+          "file": "subjects/maths/number/words.csv"
+        }
+      ]
+    },
+    {
+      "key": "music",
+      "name": "music",
+      "topics": [
+        {
+          "key": "film-music",
+          "name": "Film music",
+          "words": 14,
+          "file": "subjects/music/film-music/words.csv"
+        },
+        {
+          "key": "game-music",
+          "name": "Game music",
+          "words": 5,
+          "file": "subjects/music/game-music/words.csv"
+        },
+        {
+          "key": "instruments",
+          "name": "Instruments",
+          "words": 3,
+          "file": "subjects/music/instruments/words.csv"
         }
       ]
     },
@@ -29,10 +65,70 @@
       "name": "science",
       "topics": [
         {
+          "key": "breathing-and-respiration",
+          "name": "Breathing and respiration",
+          "words": 10,
+          "file": "subjects/science/breathing-and-respiration/words.csv"
+        },
+        {
           "key": "cells",
           "name": "cells",
           "words": 2,
           "file": "subjects/science/cells/words.csv"
+        },
+        {
+          "key": "elements-and-compounds",
+          "name": "Elements and compounds",
+          "words": 16,
+          "file": "subjects/science/elements-and-compounds/words.csv"
+        },
+        {
+          "key": "food-and-digestion",
+          "name": "Food and digestion",
+          "words": 11,
+          "file": "subjects/science/food-and-digestion/words.csv"
+        },
+        {
+          "key": "forces-and-magnets",
+          "name": "Forces and magnets",
+          "words": 9,
+          "file": "subjects/science/forces-and-magnets/words.csv"
+        },
+        {
+          "key": "heat-and-energy",
+          "name": "Heat and energy",
+          "words": 4,
+          "file": "subjects/science/heat-and-energy/words.csv"
+        },
+        {
+          "key": "inheritance",
+          "name": "Inheritance",
+          "words": 16,
+          "file": "subjects/science/inheritance/words.csv"
+        },
+        {
+          "key": "light",
+          "name": "Light",
+          "words": 8,
+          "file": "subjects/science/light/words.csv"
+        },
+        {
+          "key": "reactions",
+          "name": "Reactions",
+          "words": 3,
+          "file": "subjects/science/reactions/words.csv"
+        },
+        {
+          "key": "solutions",
+          "name": "Solutions",
+          "words": 2,
+          "file": "subjects/science/solutions/words.csv"
+        },
+        {
+          "key": "sound",
+          "name": "Sound",
+          "words": 9,
+          "file": "subjects/science/sound/words.csv"
         }
       ]
     }

@@ -5,19 +5,17 @@ This folder holds the words the game uses. Each subject is a folder. Each topic 
 ```
 subjects/
   wordscape-gcse-words.xlsx   the master word list (Dave's spreadsheet)
+  topics.json                 the list of subjects and topics the game reads (written by the tool)
   english/                    the default subject: no topics
     words.txt
     dictionary.txt
-  computer/
-    digital-media/
+  science/                    one folder per subject
+    light/                    one folder per topic
       words.csv
-  maths/
-    algebra/
-      words.csv
-  science/
-    cells/
-      words.csv
+    ...
 ```
+
+The subjects and topics in use are whatever is in the spreadsheet; `topics.json` lists them.
 
 ## How words are added
 
