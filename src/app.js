@@ -51,6 +51,22 @@ async function load() {
   data.backgrounds = bgs;
 }
 
+// English meanings, one file per first letter, loaded when a word needs one.
+const meaningFiles = new Map();
+function meaningsStarting(letter) {
+  if (!meaningFiles.has(letter)) {
+    meaningFiles.set(letter, getText(`subjects/english/meanings/${letter}.json`).then(JSON.parse).catch(() => ({})));
+  }
+  return meaningFiles.get(letter);
+}
+async function englishMeaning(word) {
+  return (await meaningsStarting(word[0]))[word] || "";
+}
+// Gives every word in a level a meaning: its topic clue if it has one, otherwise its English meaning.
+async function addMeanings(level) {
+  await Promise.all(level.words.filter((w) => !w.clue).map(async (w) => { w.clue = await englishMeaning(w.word); }));
+}
+
 async function loadTopic(file) {
   if (!data.topics.has(file)) data.topics.set(file, parseTopicWords(await getText(file)));
   return data.topics.get(file);
@@ -196,7 +212,7 @@ async function startNewGame(subject, chosen = []) {
     level: null,
   };
   topicList = game.english ? null : await loadTopics(game.topicFiles);
-  makeLevel();
+  await makeLevel();
   enterGame();
 }
 
@@ -213,10 +229,11 @@ async function resumeGame() {
       buttons: [{ label: "Choose a topic", action: () => { closeDialog(); renderSubjects(); } }] });
     return;
   }
+  await addMeanings(game.level); // levels saved before English meanings were added
   enterGame();
 }
 
-function makeLevel() {
+async function makeLevel() {
   const used = new Set(game.used);
   const level = buildLevel({ levelNo: game.levelNo, topic: topicList, used, lexicon: data.lexicon, seed: newSeed() });
   if (!level) return false;
@@ -228,6 +245,7 @@ function makeLevel() {
   } else {
     for (const w of level.words) if (w.topic) game.used.push(w.word);
   }
+  await addMeanings(level);
   game.level = level;
   return true;
 }
@@ -535,7 +553,9 @@ function handleWord(word) {
       {
         // bonus words get the box too; a bonus word from this topic's list also shows its meaning
         const t = (topicList || []).find((x) => x.word === word);
-        announce({ heading: "Bonus word", said: t?.say || word.toUpperCase(), text: t?.clue || "", speak: [t?.say || word, t?.clue] });
+        const show = (clue) => announce({ heading: "Bonus word", said: t?.say || word.toUpperCase(), text: clue, speak: [t?.say || word, clue] });
+        if (t?.clue) show(t.clue);
+        else englishMeaning(word).then(show);
       }
       clearCurrentSoon("fade");
       break;
@@ -699,10 +719,10 @@ function levelComplete() {
   });
 }
 
-function nextLevel() {
+async function nextLevel() {
   clearAnnouncements();
   game.levelNo += 1;
-  if (!makeLevel()) return topicComplete();
+  if (!(await makeLevel())) return topicComplete();
   closeDialog();
   busy = false;
   renderGame();

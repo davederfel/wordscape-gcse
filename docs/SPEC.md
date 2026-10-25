@@ -276,6 +276,7 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 - This happens while the word is animated, drawing and filling in on the grid.
 - As the word and its clue are read aloud, a box on screen shows the word as it is spoken, with the clue beneath it. For example, on getting GIF right the box shows "G.I.F." and "An image format that supports simple animations and limited colours".
 - The box appears for every word found, including English fill words and bonus words. It shows the word, with its meaning beneath when the word has one.
+- English words (fill words, bonus words and the english subject) also have a meaning, which is their clue. It is shown and read aloud like a topic word's clue, and the clue button can read it out.
 - The box has an × at its top right, so the player can close it and move on.
 - The purpose is for the player to hear how the word is said correctly and what it means.
 
@@ -287,9 +288,15 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 **How this is read in the first build (to be confirmed by Dave)**
 
 - The box shows the "Say as" form where one is set (for example "B. M. P."), and otherwise the word in capitals.
-- A bonus word has a meaning when it is one of the topic's own words (for example GIF found as a bonus in a Digital Media level). English bonus words have no meaning, so their box shows the word only. The box for a bonus word is headed "Bonus word".
+- A bonus word has a meaning when it is one of the topic's own words (for example GIF found as a bonus in a Digital Media level). English bonus words show their English meaning. The box for a bonus word is headed "Bonus word".
 - Closing the box with the × also stops it being read aloud. On a laptop, Esc closes it too.
 - The box sits at the bottom of the grid area, where clues from the clue button also appear. If several words are found close together, their boxes take turns, and the level-complete message waits until the last one has been read.
+
+**How English meanings are made**
+
+- Meanings come from WordNet 3.0, Princeton University's openly licensed English dictionary, using each word's most common meaning. A word that is a form of another word is explained through it, for example "Plural of cat: ..." or "Past tense of walk: ...".
+- 17,412 of the 17,644 puzzle words have a meaning. The rest are rare forms such as "babier", which show without a meaning.
+- WordNet uses American spelling in its meanings (for example "color"), and some meanings are written for adults. Any meaning can be replaced by adding the word and a new meaning to `subjects/english/meanings-extra.csv`.
 
 **Points to note**
 
@@ -378,3 +385,4 @@ Sources: [Wordscapes on Google Play](https://play.google.com/store/apps/details?
 - 2026-10-14: The word box now appears only for words with a meaning, including bonus words, and has an × to close it.
 - 2026-10-14: The word box now appears for every word found, including bonus words, with the meaning when there is one.
 - 2026-10-25: Topics are chosen with tick boxes, with Select all; the ticked topics' words are mixed into one game.
+- 2026-10-25: English words now have meanings (from WordNet), used as their clues.

@@ -26,6 +26,7 @@ def main():
 
     files = sorted(p.relative_to(ROOT).as_posix() for p in (ROOT / "src").glob("*.js"))
     files += ["subjects/topics.json", "subjects/english/words.txt", "subjects/english/dictionary.txt"]
+    files += sorted(p.relative_to(ROOT).as_posix() for p in (ROOT / "subjects/english/meanings").glob("*.json"))
     index = json.loads((ROOT / "subjects/topics.json").read_text())
     files += [t["file"] for s in index["subjects"] for t in s["topics"]]
     bgs = json.loads((ROOT / "assets/backgrounds/backgrounds.json").read_text())

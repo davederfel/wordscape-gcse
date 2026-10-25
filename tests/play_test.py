@@ -8,6 +8,7 @@ drags across the wheel, types words, finds a bonus word, uses clues, completes l
 saves and resumes, and completes a whole topic. Records everything the game speaks.
 """
 import functools
+import json
 import re
 import http.server
 import socketserver
@@ -341,8 +342,14 @@ def main():
         w0 = unsolved(page)[0]
         type_word(page, w0)
         page.wait_for_timeout(200)
-        check(page.locator("#clueText.show").count() == 1 and page.inner_text("#clueContent").strip() == w0.upper()
-              and page.evaluate("window.__spoken")[:1] == [w0], "word with no meaning: box shows the word as it is read aloud")
+        meanings = {}
+        for f in (ROOT / "subjects/english/meanings").glob("*.json"):
+            meanings.update(json.loads(f.read_text()))
+        m0 = meanings.get(w0, "")
+        spoken = page.evaluate("window.__spoken")
+        check(page.locator("#clueText.show").count() == 1 and w0.upper() in page.inner_text("#clueContent")
+              and (not m0 or m0 in page.inner_text("#clueContent")) and spoken[:1] == [w0] and (not m0 or spoken[1:2] == [m0]),
+              f"english word: box shows {w0.upper()} and its meaning, both read aloud ({m0[:50]})")
         page.wait_for_timeout(900)
         page.screenshot(path=str(SHOTS / "12-english.png"))
 

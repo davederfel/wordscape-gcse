@@ -50,3 +50,11 @@ Three words that the source does not include at these sizes were added to both f
 - The lists stop at 7 letters. Subject words can be longer; these lists are only for the english subject, gap filling and bonus words.
 - `words.txt` includes some uncommon forms of common words (for example "eagerer"). Delete any that are not wanted.
 - No filter catches everything. If an unsuitable word turns up, delete its line from both files.
+
+## Meanings
+
+The `meanings` folder holds a short meaning for each English word, used as its clue in the game. There is one file per first letter (`a.json` to `z.json`), so the game only loads the letters it needs.
+
+- They come from WordNet 3.0, Princeton University's English dictionary, which may be used and shared with its notice kept. The notice is in [WORDNET-LICENCE.txt](WORDNET-LICENCE.txt).
+- They are built by `tools/build_meanings.py`, which picks each word's most common meaning. A form of another word is explained through it, for example "Plural of cat: ...".
+- To change a meaning, or add one that is missing, add a row to `meanings-extra.csv` (columns `word` and `meaning`) and run the tool again. Rows there take priority over WordNet.
