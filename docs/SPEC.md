@@ -212,6 +212,18 @@ The screen has seven areas, labelled A to G on Dave's marked-up screenshot.
 - Levels are made fresh each time: the same topic gives different levels, and different fill words, on each new game. Topic words still appear once each.
 - A word made from the wheel that is too short (under 3 letters) or not a real word is rejected with a shake. It costs nothing.
 
+**Stated: choosing topics**
+
+- After choosing a subject, the topics are shown as tick boxes, with a "Select all" option at the top. Any combination of topics can be ticked.
+
+**How this is read (to be confirmed by Dave)**
+
+- The words of every ticked topic are mixed into one game. A word that appears in more than one ticked topic (such as WATER) is used once, with the clue from the first topic it appears in.
+- The Start button stays disabled until at least one topic is ticked.
+- The header's first line shows the topic name when one topic is ticked, "All Science" when every topic is ticked, and "Science: 3 topics" for a mix.
+- A topic's own backgrounds are used only when that topic is played on its own; a mix uses the default backgrounds.
+- The game is complete when every word in the ticked topics has been used. A saved game remembers the topics ticked.
+
 **Stated: other screens**
 
 - Besides the game screen, there is a start screen (resume or new game), a subject and topic choice, the save prompt on quitting, and the topic-complete congratulations.
@@ -365,3 +377,4 @@ Sources: [Wordscapes on Google Play](https://play.google.com/store/apps/details?
 - 2026-10-14: Added the on-screen box showing a found word and its meaning while they are read aloud.
 - 2026-10-14: The word box now appears only for words with a meaning, including bonus words, and has an × to close it.
 - 2026-10-14: The word box now appears for every word found, including bonus words, with the meaning when there is one.
+- 2026-10-25: Topics are chosen with tick boxes, with Select all; the ticked topics' words are mixed into one game.

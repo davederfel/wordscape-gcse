@@ -14,7 +14,7 @@ const fmt = (n) => n.toLocaleString("en-GB");
 
 const data = { index: null, lexicon: null, backgrounds: null, topics: new Map() };
 let game = null;        // the game in play (this is what gets saved)
-let topicList = null;   // the current topic's words, from its words.csv
+let topicList = null;   // the chosen topics' words, from their words.csv files
 let path = [];          // letters selected on the wheel, as indexes into level.wheel
 let dragging = false;
 let pointer = null;
@@ -82,7 +82,8 @@ function menuBackground() {
 }
 
 function levelBackground() {
-  const key = game.english ? "english" : `${game.subjectKey}/${game.topicKey}`;
+  // a single topic can have its own backgrounds; a mix of topics uses the default set
+  const key = game.english ? "english" : game.topicFiles.length === 1 ? `${game.subjectKey}/${game.topicKey}` : null;
   const list = data.backgrounds.topics[key] || data.backgrounds.default;
   return list[(game.levelNo - 1) % list.length];
 }
@@ -117,7 +118,7 @@ function renderSubjects() {
     b.addEventListener("click", onClick);
     list.appendChild(b);
   };
-  add("English", "Everyday words", () => startNewGame(null, null));
+  add("English", "Everyday words", () => startNewGame(null));
   for (const s of data.index.subjects) {
     const n = s.topics.length;
     add(cap(s.name), `${n} topic${n === 1 ? "" : "s"}`, () => renderTopics(s));
@@ -129,35 +130,72 @@ function renderTopics(subject) {
   $("topicsTitle").textContent = cap(subject.name);
   const list = $("topicList");
   list.innerHTML = "";
+  const boxes = [];
   for (const t of subject.topics) {
-    const b = document.createElement("button");
-    b.type = "button";
-    b.className = "choice";
-    b.innerHTML = `${esc(cap(t.name))}<span>${t.words} words</span>`;
-    b.addEventListener("click", () => startNewGame(subject, t));
-    list.appendChild(b);
+    const row = document.createElement("label");
+    row.className = "choice tick";
+    row.innerHTML = `<input type="checkbox"><span class="name">${esc(cap(t.name))}</span><span>${t.words} words</span>`;
+    const box = row.firstChild;
+    box.addEventListener("change", update);
+    boxes.push({ box, topic: t });
+    list.appendChild(row);
   }
+  const all = $("topicAll");
+  all.checked = false;
+  all.indeterminate = false;
+  all.onchange = () => { for (const b of boxes) b.box.checked = all.checked; update(); };
+  function update() {
+    const n = boxes.filter((b) => b.box.checked).length;
+    all.checked = n === boxes.length;
+    all.indeterminate = n > 0 && n < boxes.length;
+    $("topicsStart").disabled = n === 0;
+  }
+  $("topicsStart").onclick = () => {
+    const chosen = boxes.filter((b) => b.box.checked).map((b) => b.topic);
+    if (chosen.length) startNewGame(subject, chosen);
+  };
+  update();
   show("screenTopics");
 }
 
 // ---------- starting and resuming ----------
 
-async function startNewGame(subject, topic) {
+// What the header shows: one topic's name, "All Science", or "Science: 3 topics".
+function topicLabel(subject, chosen) {
+  if (chosen.length === 1) return chosen[0].name;
+  if (chosen.length === subject.topics.length) return `All ${cap(subject.name)}`;
+  return `${cap(subject.name)}: ${chosen.length} topics`;
+}
+
+// Loads the chosen topics' words and mixes them. A word in more than one topic is used once.
+async function loadTopics(files) {
+  const seen = new Set();
+  const words = [];
+  for (const f of files) {
+    for (const w of await loadTopic(f)) {
+      if (!seen.has(w.word)) { seen.add(w.word); words.push(w); }
+    }
+  }
+  return words;
+}
+
+async function startNewGame(subject, chosen = []) {
   game = {
-    version: 1,
+    version: 2,
     english: !subject,
     subjectKey: subject?.key || "english",
     subjectName: subject?.name || "English",
-    topicKey: topic?.key || "",
-    topicName: topic?.name || "English",
-    topicFile: topic?.file || "",
+    topicKey: chosen.length === 1 ? chosen[0].key : "",
+    topicKeys: chosen.map((t) => t.key),
+    topicName: subject ? topicLabel(subject, chosen) : "English",
+    topicFiles: chosen.map((t) => t.file),
     levelNo: 1,
     score: 0,
     used: [],
     cluePresses: 0,
     level: null,
   };
-  topicList = game.english ? null : await loadTopic(game.topicFile);
+  topicList = game.english ? null : await loadTopics(game.topicFiles);
   makeLevel();
   enterGame();
 }
@@ -166,9 +204,10 @@ async function resumeGame() {
   const save = readSave();
   if (!save) return renderStart();
   delete save.savedAt;
+  if (!save.topicFiles) save.topicFiles = save.topicFile ? [save.topicFile] : []; // saves from before topics could be mixed
   game = save;
   try {
-    topicList = game.english ? null : await loadTopic(game.topicFile);
+    topicList = game.english ? null : await loadTopics(game.topicFiles);
   } catch {
     openDialog({ title: "This topic is no longer available", body: "<p>Its word list could not be found. Choose another topic.</p>",
       buttons: [{ label: "Choose a topic", action: () => { closeDialog(); renderSubjects(); } }] });
@@ -671,7 +710,7 @@ function nextLevel() {
 
 function topicComplete() {
   const save = readSave();
-  if (save && save.subjectKey === game.subjectKey && save.topicKey === game.topicKey) clearSave();
+  if (save && save.subjectKey === game.subjectKey && JSON.stringify(save.topicFiles || [save.topicFile]) === JSON.stringify(game.topicFiles)) clearSave();
   speech.say(`Congratulations. You have completed ${game.topicName}.`);
   openDialog({
     title: "Congratulations!",

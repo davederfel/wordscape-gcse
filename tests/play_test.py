@@ -8,6 +8,7 @@ drags across the wheel, types words, finds a bonus word, uses clues, completes l
 saves and resumes, and completes a whole topic. Records everything the game speaks.
 """
 import functools
+import re
 import http.server
 import socketserver
 import sys
@@ -51,6 +52,19 @@ if (window.speechSynthesis) {
 """
 
 game = lambda page: page.evaluate("window.wordscapeTest.game")
+
+
+def choose(page, subject, topics):
+    """Picks a subject, ticks the named topics (or "all") and starts."""
+    page.get_by_role("button", name=re.compile("^" + subject)).click()
+    page.wait_for_selector("#screenTopics:not([hidden])")
+    if topics == "all":
+        page.check("#topicAll")
+    else:
+        for t in topics:
+            page.get_by_role("checkbox", name=t).check()
+    page.click("#topicsStart")
+    page.wait_for_selector("#screenGame:not([hidden])")
 
 
 def drag_word(page, word):
@@ -127,8 +141,17 @@ def main():
         page.screenshot(path=str(SHOTS / "02-subjects.png"))
         subjects = page.locator("#subjectList .choice").all_inner_texts()
         check(subjects[0].startswith("English"), f"subjects: English listed first ({subjects})")
-        page.get_by_role("button", name="Maths").click()
-        page.get_by_role("button", name="Algebra").click()
+        page.get_by_role("button", name=re.compile("^Maths")).click()
+        page.wait_for_selector("#screenTopics:not([hidden])")
+        check(page.locator("#topicsStart").is_disabled(), "topics: Start is disabled until a topic is ticked")
+        page.check("#topicAll")
+        check(page.locator("#topicList input:checked").count() == page.locator("#topicList input").count(), "topics: Select all ticks every topic")
+        page.screenshot(path=str(SHOTS / "02b-topics.png"))
+        page.uncheck("#topicAll")
+        check(page.locator("#topicList input:checked").count() == 0 and page.locator("#topicsStart").is_disabled(), "topics: unticking Select all clears them")
+        page.get_by_role("checkbox", name="Algebra").check()
+        check(page.evaluate("document.getElementById('topicAll').indeterminate"), "topics: Select all shows part-ticked for a mix")
+        page.click("#topicsStart")
         page.wait_for_selector("#screenGame:not([hidden])")
         page.wait_for_timeout(1400)
         g = game(page)
@@ -292,9 +315,7 @@ def main():
         check(True, "exit: goes back to the subject choice")
 
         # ---- complete a whole topic: science / cells ----
-        page.get_by_role("button", name="Science").click()
-        page.get_by_role("button", name="Cells").click()
-        page.wait_for_selector("#screenGame:not([hidden])")
+        choose(page, "Science", ["Cells"])
         for _ in range(5):
             finish_level(page)
             if page.inner_text("#dialogTitle").startswith("Level"):
@@ -325,10 +346,35 @@ def main():
         page.wait_for_timeout(900)
         page.screenshot(path=str(SHOTS / "12-english.png"))
 
+        # ---- mixed topics ----
+        page.click("#menuBtn"); page.click("#exitBtn"); page.get_by_role("button", name="Don't save").click()
+        choose(page, "Music", "all")
+        page.wait_for_timeout(900)
+        check(page.inner_text("#topicName") == "All Music", f"mix: header shows All Music ({page.inner_text('#topicName')})")
+        check(len(game(page)["topicFiles"]) == 3, "mix: all three Music topics in play")
+        page.screenshot(path=str(SHOTS / "12b-all-music.png"))
+        finish_level(page); page.click("#dialogButtons button"); page.wait_for_timeout(500)
+        page.click("#menuBtn"); page.click("#exitBtn"); page.get_by_role("button", name="Don't save").click()
+        choose(page, "Science", ["Light", "Sound"])
+        page.wait_for_timeout(600)
+        check(page.inner_text("#topicName") == "Science: 2 topics", f"mix: header shows Science: 2 topics ({page.inner_text('#topicName')})")
+        topic_words = set()
+        for _ in range(4):
+            topic_words |= {w["word"] for w in game(page)["level"]["words"] if w["topic"]}
+            finish_level(page); page.click("#dialogButtons button"); page.wait_for_timeout(500)
+        light = {"red", "orange", "yellow", "green", "blue", "indigo", "violet", "normal"}
+        check(topic_words and topic_words <= light | {"pitch", "noise", "vacuum", "echo", "solids", "decibel", "pinna", "eardrum", "cochlea"},
+              f"mix: levels use words from the ticked topics ({sorted(topic_words)})")
+        # save and resume a mixed game
+        page.click("#menuBtn"); page.click("#quitBtn"); page.get_by_role("button", name="Save", exact=True).click()
+        page.wait_for_selector("#resumeBtn")
+        check("Science: 2 topics" in page.inner_text("#resumeMeta"), "mix: resume shows the topic mix")
+        page.click("#resumeBtn"); page.wait_for_selector("#screenGame:not([hidden])")
+        check(game(page)["topicFiles"] == ["subjects/science/light/words.csv", "subjects/science/sound/words.csv"], "mix: resume keeps the same topics")
+
         # ---- one-word file-format level ----
         page.click("#menuBtn"); page.click("#exitBtn"); page.get_by_role("button", name="Don't save").click()
-        page.get_by_role("button", name="Computer").click()
-        page.get_by_role("button", name="Digital Media").click()
+        choose(page, "Computer", ["Digital Media"])
         page.wait_for_timeout(1200)
         page.screenshot(path=str(SHOTS / "13-digital-media.png"))
         page.evaluate("window.__spoken = []")

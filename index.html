@@ -103,6 +103,12 @@ button:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
 }
 .choice span { font-size: 3.6cqw; font-weight: 700; color: var(--ink-soft); white-space: nowrap; }
 .choice:hover { background: #fff; }
+.tick { justify-content: flex-start; gap: 3.4cqw; cursor: pointer; }
+.tick input { width: 6cqw; height: 6cqw; margin: 0; flex: none; accent-color: var(--accent); cursor: pointer; }
+.tick .name { flex: 1; font-size: 5cqw; font-weight: 800; color: var(--ink); white-space: normal; }
+.tick:has(input:checked) { background: #fff; border-color: var(--accent); }
+.all-row { background: rgba(255, 255, 255, 0.5); }
+.big-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
 .back-btn { align-self: flex-start; border: 0; background: none; cursor: pointer; font-weight: 800; font-size: 4cqw; color: var(--accent-deep); padding: 0; }
 .resume-meta { font-weight: 800; color: var(--ink); font-size: 4.4cqw; }
 .cap::first-letter { text-transform: uppercase; }
@@ -280,7 +286,10 @@ button:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
     <div class="panel">
       <button class="back-btn" id="topicsBack" type="button">‹ Subjects</button>
       <h2 class="cap" id="topicsTitle">Topics</h2>
+      <p>Tick the topics to play. Their words are mixed together.</p>
+      <label class="choice tick all-row"><input type="checkbox" id="topicAll"> Select all</label>
       <div class="choice-list" id="topicList"></div>
+      <button class="big-btn" id="topicsStart" type="button" disabled>Start</button>
     </div>
   </section>
 
